@@ -1,0 +1,29 @@
+# ── Clean URLs ──────────────────────────────────────────────
+# Serve each page at the canonical path used in <link rel="canonical"> and sitemap.xml.
+/about                  /about-v4.html                  200
+/celigo-ipaas           /celigo-ipaas-v4.html           200
+/netsuite-integration   /netsuite-erp-v4.html           200
+/ai-automation          /ai-automation-v4.html          200
+/dashboards             /dashboards-v4.html             200
+/work                   /work-v4.html                   200
+/work/cizzle-brands     /cizzle-brands-case-study.html  200
+/work/larroude          /larroude-case-study.html       200
+/contact                /contact-v4.html                200
+/privacy-policy         /privacy-policy.html            200
+
+# ── Redirect old/ugly .html URLs to the clean canonical (avoids duplicate content) ──
+/home-v4                        /                       301
+/home-v4.html                   /                       301
+/about-v4.html                  /about                  301
+/celigo-ipaas-v4.html           /celigo-ipaas           301
+/netsuite-erp-v4.html           /netsuite-integration   301
+/ai-automation-v4.html          /ai-automation          301
+/dashboards-v4.html             /dashboards             301
+/work-v4.html                   /work                   301
+/cizzle-brands-case-study.html  /work/cizzle-brands     301
+/larroude-case-study.html       /work/larroude          301
+/contact-v4.html                /contact                301
+/privacy-policy.html            /privacy-policy         301
+
+# ── Custom 404 (Netlify serves this automatically, listed for clarity) ──
+/*                      /404.html                       404
