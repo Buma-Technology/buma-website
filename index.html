@@ -1266,16 +1266,6 @@ gtag('config', 'G-XXXXXXXXXX');</script>
     h1.dataset.split = '1';
   })();
 
-  // MARQUEE TRUST BAR
-  (function(){
-    const rows = document.querySelectorAll('.trust-row .trust-logos');
-    if (!rows.length) return;
-    rows.forEach(row => {
-      row.classList.add('marquee');
-      const originals = Array.from(row.children).map(c => c.cloneNode(true));
-      originals.forEach(c => row.appendChild(c));
-    });
-  })();
   // HERO CURSOR GLOW
   (function(){
     const hero = document.querySelector('.home-hero');
