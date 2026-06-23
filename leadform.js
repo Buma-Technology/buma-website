@@ -20,8 +20,6 @@
   // Any CTA whose destination is the contact page is treated as a lead-capture trigger.
   var CTA_SELECTOR = [
     'a[href="/contact"]',
-    'a[href="/contact-v4.html"]',
-    'a[href="contact-v4.html"]',
     'a[href$="bumatechnology.com/contact"]',
     "[data-leadform]"
   ].join(",");
