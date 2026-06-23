@@ -1891,9 +1891,13 @@ gtag('config', 'G-XXXXXXXXXX');</script>
       div.innerHTML = `<div class="bc-feed-time">${time}</div><div class="bc-feed-icon ${icon}">${iconChar}</div><div class="bc-feed-text">${text}</div>`;
       feed.insertBefore(div, feed.firstChild);
       requestAnimationFrame(() => div.classList.add('show'));
-      // Trim to 5 entries; fade the oldest visually before remove
-      while (feed.children.length > 5) {
-        const last = feed.lastChild;
+      // Trim to 5 entries; fade the oldest visually before remove.
+      // Iterate a shrinking snapshot (pop) so the loop terminates — the actual
+      // DOM removal is deferred, so checking feed.children here would never advance.
+      // Skip nodes already fading so they aren't re-scheduled for removal.
+      const live = Array.from(feed.children).filter(c => !c.classList.contains('fade'));
+      while (live.length > 5) {
+        const last = live.pop();
         last.classList.add('fade');
         last.style.opacity = '0';
         setTimeout(() => last.remove(), 600);
@@ -1937,9 +1941,9 @@ gtag('config', 'G-XXXXXXXXXX');</script>
       setSystemState('shopify', 'syncing');
       litNode('shopify', 800);
 
-      // 0.4s — packet leaves Shopify along path1
+      // 0.4s — packet leaves Shopify along the Shopify→ShipStation path
       setTimeout(() => {
-        spawnPacket('bcPath1', orderId, false);
+        spawnPacket('shopify', 'ship');
       }, 400);
 
       // 1.4s — packet reaches BuMa Transform, light it up
@@ -1966,7 +1970,7 @@ gtag('config', 'G-XXXXXXXXXX');</script>
       setTimeout(() => {
         setSystemState('edi', 'syncing');
         litNode('edi', 800);
-        spawnPacket('bcPath2', 'EDI 850', true);
+        spawnPacket('edi', 'asn');
       }, 5000);
 
       // 6.0s — center node lights up from EDI flow
@@ -1994,8 +1998,7 @@ gtag('config', 'G-XXXXXXXXXX');</script>
 
       // 11s — another order, small recurrence
       setTimeout(() => {
-        const orderId2 = '#ORD-' + (48000 + Math.floor(Math.random() * 999));
-        spawnPacket('bcPath1', orderId2, false);
+        spawnPacket('shopify', 'ship');
         setTimeout(() => bumpCounter(), 2200);
       }, 11000);
 
