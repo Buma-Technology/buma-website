@@ -678,8 +678,10 @@ gtag('config', 'G-XXXXXXXXXX');</script>
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const splitNode = (node) => {
       if (node.nodeType === 3) {
-        const words = node.textContent.split(/\s+/).filter(Boolean);
+        const raw = node.textContent;
+        const words = raw.split(/\s+/).filter(Boolean);
         const frag = document.createDocumentFragment();
+        if (/^\s/.test(raw)) frag.appendChild(document.createTextNode(' '));
         words.forEach((w, i) => {
           const span = document.createElement('span');
           span.className = 'word';
@@ -688,6 +690,7 @@ gtag('config', 'G-XXXXXXXXXX');</script>
           frag.appendChild(span);
           if (i < words.length - 1) frag.appendChild(document.createTextNode(' '));
         });
+        if (/\s$/.test(raw)) frag.appendChild(document.createTextNode(' '));
         node.replaceWith(frag);
         return words.length;
       }
