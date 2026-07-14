@@ -1,23 +1,33 @@
-/* BuMa Lead Form — site-wide contact form (embeds JotForm form 261695091611054).
+/* BuMa Lead Form — site-wide, on-brand contact form (submits to JotForm 261695091611054).
  * Single shared asset on every page: <script src="/leadform.js" defer></script>
  *
- * Embeds the live JotForm (https://form.jotform.com/261695091611054) so submissions are
- * handled entirely by JotForm — no field-mapping to keep in sync, no silent POST failures.
- * We use the iframe embed rather than JotForm's jsform <script> tag because jsform relies on
- * document.write, which blanks the page when injected into the JS-built modal after load; the
- * iframe renders the identical form and is safe to mount dynamically. The iframe auto-resizes
- * via JotForm's postMessage "setHeight" events (handled below — no third-party JS required).
+ * Why native (not the JotForm iframe): the iframe renders JotForm's own theme, which clashes
+ * with the site. This builds the form from the site's design tokens (Inter, --ink, --line,
+ * radii, --ease) so it matches exactly, then submits to JotForm via a hidden iframe target
+ * (no page navigation, no CORS issue) and shows a branded thank-you. Fast: no third-party
+ * CSS/JS, nothing loads until submit.
+ *
+ * MERGE GATE: the field names below (q2_q2_fullname0[first], q3_q3_email1, …) must match the
+ * live JotForm config or submissions vanish silently. Any change to this file ships only after
+ * a real browser test submission is confirmed in the JotForm inbox.
+ *
+ * Success detection: JotForm's response page is cross-origin, so the sink iframe's `load` event
+ * alone can't prove acceptance. If the JotForm form's Thank You action is set to redirect to
+ * https://bumatechnology.com/form-thanks.html, the sink lands same-origin and acceptance is
+ * VERIFIED; otherwise we fall back to the load-event heuristic, and the thank-you includes a
+ * "didn't hear from us? email support@" safety line either way. A 12s watchdog surfaces a retry
+ * + mailto path if the POST never completes (network failure), so no visitor dead-ends.
  *
  * Appears in:
  *   (a) a global modal opened by the floating "Let's Talk" button and any /contact CTA, and
- *   (b) any <div data-buma-form></div> placed inline on a page (the form sections).
+ *   (b) any <div data-buma-form></div> placed inline on a page (e.g. /contact).
  * Accessible modal: overlay, ESC, click-out, focus trap, scroll lock, focus restore.
  */
 (function () {
   "use strict";
 
+  var SUBMIT_URL = "https://submit.jotform.com/submit/261695091611054";
   var FORM_ID = "261695091611054";
-  var FORM_SRC = "https://form.jotform.com/" + FORM_ID;
   // Any CTA whose destination is the contact page is treated as a lead-capture trigger.
   var CTA_SELECTOR = [
     'a[href="/contact"]',
@@ -25,45 +35,113 @@
     "[data-leadform]"
   ].join(",");
 
-  var injected = false, overlay, dialog, lastFocus, resizeWired = false;
+  var injected = false, overlay, dialog, lastFocus, seq = 0;
 
-  /* ---------- the form (live JotForm iframe) ---------- */
+  /* ---------- the form ---------- */
 
-  function renderInto(el) {
-    var iframe = document.createElement("iframe");
-    iframe.className = "bf-jf";
-    iframe.id = "JotFormIFrame-" + FORM_ID;
-    iframe.title = "Contact BuMa Technology";
-    iframe.src = FORM_SRC;
-    iframe.setAttribute("allowtransparency", "true");
-    iframe.setAttribute("allow", "geolocation; microphone; camera; fullscreen; payment");
-    iframe.setAttribute("frameborder", "0");
-    iframe.setAttribute("scrolling", "no");
-    el.innerHTML = "";
-    el.appendChild(iframe);
-    wireResize();
+  function formInner() {
+    var n = ++seq, sink = "bf-sink-" + n;
+    return (
+      '<form class="bf-form" action="' + SUBMIT_URL + '" method="post" target="' + sink + '" novalidate>' +
+        '<div class="bf-row">' +
+          '<div class="bf-field"><label class="bf-label" for="bf-fn-' + n + '">First name <span>*</span></label>' +
+            '<input class="bf-input" id="bf-fn-' + n + '" name="q2_q2_fullname0[first]" type="text" autocomplete="given-name" required></div>' +
+          '<div class="bf-field"><label class="bf-label" for="bf-ln-' + n + '">Last name <span>*</span></label>' +
+            '<input class="bf-input" id="bf-ln-' + n + '" name="q2_q2_fullname0[last]" type="text" autocomplete="family-name" required></div>' +
+        '</div>' +
+        '<div class="bf-row">' +
+          '<div class="bf-field"><label class="bf-label" for="bf-em-' + n + '">Work email <span>*</span></label>' +
+            '<input class="bf-input" id="bf-em-' + n + '" name="q3_q3_email1" type="email" autocomplete="email" required></div>' +
+          '<div class="bf-field"><label class="bf-label" for="bf-ph-' + n + '">Phone <span>*</span></label>' +
+            '<input class="bf-input" id="bf-ph-' + n + '" name="q4_q4_phone2[full]" type="tel" autocomplete="tel" placeholder="(000) 000-0000" required></div>' +
+        '</div>' +
+        '<div class="bf-field"><label class="bf-label" for="bf-co-' + n + '">Company <span>*</span></label>' +
+          '<input class="bf-input" id="bf-co-' + n + '" name="q5_q5_textbox3" type="text" autocomplete="organization" required></div>' +
+        '<div class="bf-field"><label class="bf-label" for="bf-msg-' + n + '">Tell us about your project <span>*</span></label>' +
+          '<textarea class="bf-input bf-textarea" id="bf-msg-' + n + '" name="q6_q6_textarea4" rows="4" required></textarea></div>' +
+        // honeypot (bots fill it; humans never see it) + JotForm anti-spam fields
+        '<input class="bf-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+        '<input type="hidden" name="formID" value="' + FORM_ID + '">' +
+        '<input type="hidden" name="simple_spc" value="' + FORM_ID + '">' +
+        '<div class="bf-actions">' +
+          '<button type="submit" class="bf-submit">' +
+            '<span class="bf-submit-label">Send message</span>' +
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+          '</button>' +
+          '<span class="bf-note">Response within one business day</span>' +
+        '</div>' +
+        '<div class="bf-status" role="status" aria-live="polite"></div>' +
+        '<iframe name="' + sink + '" class="bf-sink" title="Form submission" aria-hidden="true" tabindex="-1"></iframe>' +
+      '</form>' +
+      '<div class="bf-thanks" hidden tabindex="-1">' +
+        '<div class="bf-thanks-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></div>' +
+        "<h3>Thanks — we've got it.</h3>" +
+        "<p>A BuMa integration specialist will get back to you within one business day.</p>" +
+        '<p class="bf-safety">Don\'t hear from us? Email <a href="mailto:support@bumatechnology.com">support@bumatechnology.com</a> directly.</p>' +
+      '</div>'
+    );
   }
 
-  // JotForm posts a height message so the embed can fit its content. Older builds send the
-  // string "setHeight:<px>:<formID>"; newer ones may send {type:"setHeight",height:<px>}.
-  // One listener resizes every embedded BuMa form iframe (modal + any inline mounts).
-  function wireResize() {
-    if (resizeWired) return;
-    resizeWired = true;
-    window.addEventListener("message", function (e) {
-      var h = 0, d = e.data;
-      if (typeof d === "string") {
-        if (d.indexOf("setHeight") !== 0) return;
-        h = parseInt(d.split(":")[1], 10);
-      } else if (d && d.type === "setHeight") {
-        h = parseInt(d.height, 10);
-      } else {
-        return;
-      }
-      if (!h) return;
-      var frames = document.querySelectorAll(".bf-jf");
-      Array.prototype.forEach.call(frames, function (f) { f.style.height = h + "px"; });
+  function wireForm(wrap) {
+    var form = wrap.querySelector(".bf-form");
+    var thanks = wrap.querySelector(".bf-thanks");
+    var status = wrap.querySelector(".bf-status");
+    var sink = wrap.querySelector(".bf-sink");
+    var btn = wrap.querySelector(".bf-submit");
+    var submitting = false;
+
+    var watchdog = null;
+
+    function showThanks(verified) {
+      if (watchdog) { clearTimeout(watchdog); watchdog = null; }
+      submitting = false;
+      status.textContent = "";
+      form.hidden = true;
+      thanks.hidden = false;
+      if (verified) thanks.setAttribute("data-verified", "1");
+      try { thanks.focus(); } catch (e) {}
+    }
+
+    function showRetry() {
+      // POST never completed (network failure) — give the visitor a way out, never a dead end.
+      watchdog = null;
+      submitting = false;
+      btn.disabled = false;
+      btn.classList.remove("bf-loading");
+      wrap.querySelector(".bf-submit-label").textContent = "Try again";
+      status.innerHTML = 'That didn\'t go through. Please try again, or email us at <a href="mailto:support@bumatechnology.com">support@bumatechnology.com</a>.';
+    }
+
+    form.addEventListener("submit", function (e) {
+      if (form.querySelector(".bf-hp") && form.querySelector(".bf-hp").value) { e.preventDefault(); return; } // bot
+      if (!form.checkValidity()) { e.preventDefault(); form.reportValidity(); return; }
+      // Valid: let the native POST proceed into the hidden iframe (no preventDefault).
+      submitting = true;
+      btn.disabled = true;
+      btn.classList.add("bf-loading");
+      wrap.querySelector(".bf-submit-label").textContent = "Sending…";
+      status.textContent = "Sending your message…";
+      watchdog = setTimeout(showRetry, 12000);
     });
+
+    sink.addEventListener("load", function () {
+      if (!submitting) return; // ignore the initial blank load
+      var verified = false;
+      try {
+        // Readable only if JotForm redirected same-origin (Thank You action set to
+        // https://bumatechnology.com/form-thanks.html) — that's a VERIFIED acceptance.
+        verified = sink.contentWindow.location.host === location.host;
+      } catch (err) {
+        // Cross-origin: JotForm rendered its own response page. Treat the load as success
+        // (heuristic) — the thank-you carries the support@ safety line for the rare miss.
+      }
+      showThanks(verified);
+    });
+  }
+
+  function renderInto(el) {
+    el.innerHTML = '<div class="bf-wrap">' + formInner() + "</div>";
+    wireForm(el.querySelector(".bf-wrap"));
   }
 
   /* ---------- styles ---------- */
@@ -91,11 +169,43 @@
       ".lf-close:focus-visible{outline:2px solid var(--ink,#09090b);outline-offset:2px;}" +
       ".lf-body{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--surface,#fff);}" +
       "body.lf-lock{overflow:hidden;}" +
-      // embedded JotForm iframe (modal + inline mounts)
+      // form
+      ".bf-wrap{padding:20px 22px 24px;}" +
       "[data-buma-form]{max-width:680px;margin:0 auto;}" +
-      ".bf-jf{display:block;width:1px;min-width:100%;max-width:100%;border:none;background:transparent;" +
-      "height:720px;}" +
-      ".lf-body .bf-jf{height:680px;}" +
+      "[data-buma-form] .bf-wrap{background:var(--surface,#fff);border:1px solid var(--line,#e4e4e7);border-radius:var(--r-lg,10px);" +
+      "box-shadow:var(--shadow-sm,0 1px 2px rgba(9,9,11,0.04));padding:clamp(22px,3vw,34px);}" +
+      ".bf-form{display:flex;flex-direction:column;gap:16px;}" +
+      ".bf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}" +
+      "@media (max-width:520px){.bf-row{grid-template-columns:1fr;}}" +
+      ".bf-field{display:flex;flex-direction:column;gap:6px;min-width:0;}" +
+      ".bf-label{font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:500;color:var(--ink-2,#18181b);letter-spacing:-0.01em;}" +
+      ".bf-label span{color:#c0473f;}" +
+      ".bf-input{font-family:'Inter',system-ui,sans-serif;font-size:14.5px;color:var(--ink,#09090b);background:var(--surface,#fff);" +
+      "border:1px solid var(--line,#e4e4e7);border-radius:var(--r,6px);padding:11px 13px;width:100%;line-height:1.4;" +
+      "transition:border-color .18s var(--ease,ease),box-shadow .18s var(--ease,ease);-webkit-appearance:none;appearance:none;}" +
+      ".bf-input::placeholder{color:var(--ink-4,#a1a1aa);}" +
+      ".bf-input:focus{outline:none;border-color:var(--ink,#09090b);box-shadow:0 0 0 3px rgba(9,9,11,0.08);}" +
+      ".bf-textarea{resize:vertical;min-height:108px;line-height:1.55;font-family:'Inter',system-ui,sans-serif;}" +
+      ".bf-hp{position:absolute !important;left:-9999px !important;width:1px;height:1px;opacity:0;}" +
+      ".bf-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:2px;}" +
+      ".bf-submit{display:inline-flex;align-items:center;gap:8px;font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;" +
+      "color:#fff;background:var(--ink,#09090b);border:0;border-radius:999px;padding:12px 22px;cursor:pointer;" +
+      "transition:transform .2s var(--ease,cubic-bezier(.22,1,.36,1)),background .2s ease,opacity .2s ease;}" +
+      ".bf-submit:hover{transform:translateY(-2px);background:var(--ink-2,#18181b);}" +
+      ".bf-submit:focus-visible{outline:2px solid var(--ink,#09090b);outline-offset:3px;}" +
+      ".bf-submit:disabled{opacity:.6;cursor:default;transform:none;}" +
+      ".bf-note{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4,#71717a);}" +
+      ".bf-status{font-size:13px;color:var(--ink-3,#3f3f46);min-height:0;}" +
+      ".bf-status:empty{display:none;}" +
+      ".bf-sink{display:none;}" +
+      ".bf-thanks{text-align:center;padding:34px 20px 30px;}" +
+      ".bf-thanks:focus{outline:none;}" +
+      ".bf-thanks-icon{width:46px;height:46px;border-radius:50%;background:var(--good,#16a34a);color:#fff;display:grid;place-items:center;margin:0 auto 16px;}" +
+      ".bf-thanks h3{font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:19px;letter-spacing:-0.02em;color:var(--ink,#09090b);margin:0 0 6px;}" +
+      ".bf-thanks p{color:var(--ink-3,#3f3f46);font-size:14.5px;line-height:1.6;max-width:38ch;margin:0 auto;}" +
+      ".bf-thanks .bf-safety{margin-top:14px;font-size:12.5px;color:var(--ink-4,#71717a);}" +
+      ".bf-thanks .bf-safety a{color:var(--ink-2,#18181b);text-decoration:underline;text-underline-offset:2px;}" +
+      ".bf-status a{color:var(--ink,#09090b);font-weight:600;text-decoration:underline;text-underline-offset:2px;}" +
       // floating action button
       ".lf-fab{position:fixed;right:clamp(16px,4vw,28px);bottom:clamp(16px,4vw,28px);z-index:9990;" +
       "display:inline-flex;align-items:center;gap:9px;padding:13px 20px;border:0;cursor:pointer;" +
@@ -110,7 +220,7 @@
       ".lf-fab svg{flex:none;}" +
       "@media (max-width:540px){.lf-fab{padding:12px 16px;font-size:13.5px;}}" +
       "body.lf-lock .lf-fab{opacity:0;pointer-events:none;}" +
-      "@media (prefers-reduced-motion:reduce){.lf-fab{transition:opacity .2s ease;}.lf-fab:hover{transform:none;}}";
+      "@media (prefers-reduced-motion:reduce){.lf-fab,.bf-submit{transition:opacity .2s ease;}.lf-fab:hover,.bf-submit:hover{transform:none;}}";
     var s = document.createElement("style");
     s.id = "lf-styles";
     s.textContent = css;
