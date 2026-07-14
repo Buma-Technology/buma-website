@@ -1,0 +1,34 @@
+# BuMa Technology
+
+> BuMa Technology (bumatechnology.com) is an iPaaS strategic partner and Oracle NetSuite
+> specialist for mid-market ecommerce and order-to-cash brands. BuMa designs, builds, and
+> supports Celigo-based integrations, NetSuite ERP connectivity, AI workflow automation,
+> and operational dashboards. Based in Orlando, FL.
+
+## Services
+
+- [Celigo iPaaS Integration](https://bumatechnology.com/celigo-ipaas): Celigo-orchestrated
+  integration architecture — commerce, ERP, payments, fulfillment, EDI (X12 850/855/856/810).
+- [NetSuite ERP](https://bumatechnology.com/netsuite-integration): NetSuite as the system of
+  record — order sync, revenue recognition, subsidiary mapping, audit-ready flows.
+- [AI Automation](https://bumatechnology.com/ai-automation): AI agents for invoice parsing,
+  cash application, email classification, and order-exception resolution.
+- [Operational Dashboards](https://bumatechnology.com/dashboards): Real-time, action-oriented
+  operational views for ops and finance teams.
+
+## Work
+
+- [Client work overview](https://bumatechnology.com/work): Cizzle Brands (flagship), Larroudé,
+  Ryse Supplements, Stateside Brands (EDI), Pit Viper, HumanRace, Innovu, AlivaMab Biologics,
+  Maine Coast Heritage Trust, Mpire Financial, and others.
+- [Cizzle Brands case study](https://bumatechnology.com/work/cizzle-brands): Six Shopify
+  storefronts, two 3PLs, and a new ERP unified on Celigo for a publicly traded company.
+- [Larroudé case study](https://bumatechnology.com/work/larroude): Shopify, ERP, and 3PL
+  orchestration for a luxury footwear brand.
+
+## Company
+
+- [About](https://bumatechnology.com/about): 20+ senior practitioners; 500+ projects shipped
+  in the company's history.
+- [Contact](https://bumatechnology.com/contact): 189 S Orange Ave, Suite 2020 #B, Orlando, FL
+  32801 · 321-527-8061 · support@bumatechnology.com. Response within one business day.

@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script>(function(){var _si=window.setInterval;window.setInterval=function(fn,ms){var a=[].slice.call(arguments,2);return _si(function(){if(!document.hidden)fn.apply(null,a)},ms)};document.addEventListener("visibilitychange",function(){document.documentElement.classList.toggle("pf-hidden",document.hidden)});window.addEventListener("DOMContentLoaded",function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle("pf-off",!e.isIntersecting)})},{rootMargin:"120px"});document.querySelectorAll("section,footer").forEach(function(s){io.observe(s)});document.querySelectorAll("img").forEach(function(i){if(!i.loading)i.loading="lazy";i.decoding="async"})});})();</script>
+<head><script id="legacy-redirects">/* Recover legacy WordPress URLs (pre-2026 site). GitHub Pages has no
+server-side redirects, so the 404 page maps old paths to their new homes. Mirrors the map that
+should later become Cloudflare Bulk Redirects (true 301s) if the domain is proxied. */
+(function () {
+  var p = location.pathname.toLowerCase();
+  if (p === '/' || p === '/404.html') return;
+  var rules = [
+    [/^\/contact-us(\/|$)/, '/contact'],
+    [/^\/(portfolio|works|portfolio-item[^/]*)(\/|$)/, '/work'],
+    [/^\/services\/[^/]*netsuite/, '/netsuite-integration'],
+    [/^\/services\/[^/]*(ai|automation)/, '/ai-automation'],
+    [/^\/services\/[^/]*(dashboard|report)/, '/dashboards'],
+    [/^\/services(\/|$)/, '/celigo-ipaas'],
+    [/edi/, '/celigo-ipaas'],
+    [/quot|cash-flow|invoice/, '/netsuite-integration'],
+    [/return|order/, '/celigo-ipaas'],
+    [/^\/(sample-page|item-5|coming-soon|category|author|tag|20\d\d)(\/|$)/, '/'],
+    [/^\/(blog|news|insights)(\/|$)/, '/work']
+  ];
+  for (var i = 0; i < rules.length; i++) {
+    if (rules[i][0].test(p)) { location.replace(rules[i][1]); return; }
+  }
+})();</script><script>(function(){var _si=window.setInterval;window.setInterval=function(fn,ms){var a=[].slice.call(arguments,2);return _si(function(){if(!document.hidden)fn.apply(null,a)},ms)};document.addEventListener("visibilitychange",function(){document.documentElement.classList.toggle("pf-hidden",document.hidden)});window.addEventListener("DOMContentLoaded",function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle("pf-off",!e.isIntersecting)})},{rootMargin:"120px"});document.querySelectorAll("section,footer").forEach(function(s){io.observe(s)});document.querySelectorAll("img").forEach(function(i){if(!i.loading)i.loading="lazy";i.decoding="async"})});})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>404 · Not Found | BuMa Technology</title>
