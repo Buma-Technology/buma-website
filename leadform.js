@@ -19,7 +19,7 @@
  * + mailto path if the POST never completes (network failure), so no visitor dead-ends.
  *
  * Appears in:
- *   (a) a global modal opened by the floating "Let's Talk" button and any /contact CTA, and
+ *   (a) a global modal opened by the floating "Book a call" button and any /contact CTA, and
  *   (b) any <div data-buma-form></div> placed inline on a page (e.g. /contact).
  * Accessible modal: overlay, ESC, click-out, focus trap, scroll lock, focus restore.
  */
@@ -313,11 +313,11 @@
     btn.className = "lf-fab";
     btn.setAttribute("data-leadform", "");
     btn.setAttribute("aria-haspopup", "dialog");
-    btn.setAttribute("aria-label", "Contact BuMa — open the contact form");
+    btn.setAttribute("aria-label", "Book a call — open the contact form");
     btn.innerHTML =
       '<span class="lf-fab-dot" aria-hidden="true"></span>' +
       '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>' +
-      "Let’s Talk";
+      "Book a call";
     document.body.appendChild(btn);
   }
 
