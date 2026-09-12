@@ -5,23 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- BuMa visitor tracking -->
 <script async src="https://buma-go-scale.base44.app/api/apps/6a6781973340553d5e608662/functions/tracker"></script>
-<title>Celigo iPaaS Implementation | BuMa Technology</title>
-<meta name="description" content="BuMa builds custom Celigo integrations that unify your commerce, ERP, fulfillment, and AI systems. Workflow automation and enterprise connectivity, built around your operations.">
-<link rel="canonical" href="https://bumatechnology.com/celigo-ipaas">
+<title>3PL Cutover Integration | BuMa Technology</title>
+<meta name="description" content="The warehouse go-live is not the cutover. Celigo and NetSuite sequenced so orders keep shipping while you switch 3PLs — without re-keying, missed ASNs, or inventory drift.">
+<link rel="canonical" href="https://bumatechnology.com/3pl-cutover">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BuMa Technology">
-<meta property="og:url" content="https://bumatechnology.com/celigo-ipaas">
-<meta property="og:title" content="Celigo iPaaS Implementation | BuMa Technology">
-<meta property="og:description" content="BuMa builds custom Celigo integrations that unify your commerce, ERP, fulfillment, and AI systems. Workflow automation and enterprise connectivity, built around your operations.">
+<meta property="og:url" content="https://bumatechnology.com/3pl-cutover">
+<meta property="og:title" content="3PL Cutover Integration | BuMa Technology">
+<meta property="og:description" content="The warehouse go-live is not the cutover. Celigo and NetSuite sequenced so orders keep shipping while you switch 3PLs — without re-keying, missed ASNs, or inventory drift.">
 <meta property="og:image" content="https://bumatechnology.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Celigo iPaaS Implementation | BuMa Technology">
-<meta name="twitter:description" content="BuMa builds custom Celigo integrations that unify your commerce, ERP, fulfillment, and AI systems. Workflow automation and enterprise connectivity, built around your operations.">
+<meta name="twitter:title" content="3PL Cutover Integration | BuMa Technology">
+<meta name="twitter:description" content="The warehouse go-live is not the cutover. Celigo and NetSuite sequenced so orders keep shipping while you switch 3PLs — without re-keying, missed ASNs, or inventory drift.">
 <meta name="twitter:image" content="https://bumatechnology.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,58 +45,26 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What if we already have Celigo running?",
+      "name": "Can we keep shipping from the old 3PL while the new one comes online?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Many of our engagements are audit-and-rebuild on existing Celigo deployments — flows built by previous partners that don't error-handle, don't document, or don't scale. Start with a fixed-fee audit of the instance you already run, then a rebuild SOW. See /celigo-audit."
+        "text": "Yes. Dual-path Celigo is the point of the engagement — the old warehouse keeps shipping while the new one is sequenced in. Orders stay live. We write the overlap rules before anyone flips a date."
       }
     },
     {
       "@type": "Question",
-      "name": "How much does a typical engagement cost?",
+      "name": "We already have Celigo for the current warehouse. Do you rebuild everything?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Every engagement is tailored — single integration builds through multi-system orchestration. You get a number and a timeline before any contract is signed."
+        "text": "Not by default. We read the instance you already run, keep what is production-safe, and rebuild the paths that will break during the move. If the current flows are half-cut over, that is usually the work — not a greenfield rebuild for its own sake."
       }
     },
     {
       "@type": "Question",
-      "name": "We're already on a different iPaaS. Should we switch?",
+      "name": "How do you keep NetSuite from double-counting during the move?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Probably not just for the sake of switching. If your current platform is working and well-documented, we can build on other iPaaS platforms when the project justifies it. But if you're paying for licenses you don't use, or stuck on a platform without good NetSuite tooling, Celigo is usually the right move for mid-market."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do we need to buy Celigo licenses to work with you?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, Celigo is the platform we deploy on. As a Celigo partner we can help with licensing, but Celigo charges separately for the platform. Plan on platform cost plus our tailored implementation fee."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What if our trading partners use different formats?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Celigo handles Enterprise-grade connectivity plus custom HTTP/REST/SOAP APIs. For EDI we support X12 and EDIFACT with full mapping per trading partner. If your partner has a weird requirement, we'll scope it in discovery before committing to a fixed fee."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can we self-manage the flows after you build them?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Every BuMa build comes with complete documentation and runbooks. Your team can fully own and modify the flows. Many clients do exactly this. The optional retainer is for when you want a specialist on call, not because you're locked in."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do you handle errors and retries?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Celigo has built-in retry logic, dead-letter queues, and alerting. We layer business-specific error handling on top — for example, a Shopify order that fails NetSuite posting routes to a Slack channel with full context, then retries on a schedule. Every flow has documented error paths."
+        "text": "NetSuite stays the system of record. Cutover sequencing is written first: which orders, ASNs, and inventory adjustments post where, and which path is silent. Dual-path does not mean dual-post. The overlap rules are in the SOW before go-live."
       }
     }
   ]
@@ -106,15 +74,15 @@
 {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "Celigo iPaaS Implementation",
+  "name": "3PL Cutover Integration",
   "provider": {
     "@type": "Organization",
     "name": "BuMa Technology",
     "url": "https://bumatechnology.com"
   },
-  "serviceType": "iPaaS Integration",
+  "serviceType": "3PL Cutover Integration",
   "areaServed": "United States",
-  "description": "BuMa builds custom Celigo integrations that unify your commerce, ERP, fulfillment, and AI systems. Workflow automation and enterprise connectivity, built around your operations."
+  "description": "The warehouse go-live is not the cutover. Celigo and NetSuite sequenced so orders keep shipping while you switch 3PLs — without re-keying, missed ASNs, or inventory drift."
 }
 </script>
 <style id="v7-perf-hotfix">.hero-orbs .orb{filter:blur(26px) !important;will-change:transform;}.final-cta::before{filter:blur(22px) !important;will-change:transform;}.aurora-section::before,.aurora-section::after{filter:blur(24px) !important;will-change:transform;}nav.site-nav{-webkit-backdrop-filter:blur(10px) saturate(1.3) !important;backdrop-filter:blur(10px) saturate(1.3) !important;}@keyframes orbDrift{0%{transform:translate(0,0);}100%{transform:translate(40px,30px);}}@keyframes meshDrift{0%{transform:translate(0,0);}50%{transform:translate(-2%,2%);}100%{transform:translate(2%,-2%);}}@keyframes auroraDrift{0%{transform:translate(0,0);}50%{transform:translate(-3%,3%);}100%{transform:translate(3%,-3%);}}@media (max-width:820px){.hero-orbs,.final-cta::before,.aurora-section::before,.aurora-section::after{display:none !important;}}</style>
@@ -147,7 +115,7 @@ gtag('config', 'G-XXXXXXXXXX');</script>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
     <div class="nav-links" id="navLinks">
-      <a href="/celigo-ipaas" class="active">iPaaS</a>
+      <a href="/celigo-ipaas">iPaaS</a>
       <a href="/netsuite-integration">ERP</a>
       <a href="/ai-automation">AI Automation</a>
       <a href="/dashboards">Dashboards</a>
@@ -161,53 +129,16 @@ gtag('config', 'G-XXXXXXXXXX');</script>
 <section id="main" class="page-hero">
   <div class="container">
     <div class="page-hero-inner">
-      <h1 class="display ipaas-hero-h1">We build the integrations<br><span class="dim">that orchestrate every system your business runs on.</span></h1>
-      <p class="lede">We connect your commerce, ERP, fulfillment, and AI systems into one integration. Custom integrations, workflow automation, and intelligent routing — all built on Celigo.</p>
+      <h1 class="display">The 3PL go-live is not the timeline. <span class="dim">The integration is.</span></h1>
+      <p class="lede">The warehouse date is on the calendar. The old path is still real. Orders keep moving only if Celigo and NetSuite are sequenced through the overlap — not if someone re-keys the first week and calls it cutover.</p>
       <div class="page-hero-ctas">
-        <a href="/contact" class="btn btn-primary btn-big">Scope your integration <span class="arrow">→</span></a>
-        <a href="/celigo-audit" class="btn btn-secondary btn-big">Already have Celigo? Start with an audit <span class="arrow">→</span></a>
+        <a href="/contact" class="btn btn-primary btn-big">Map the cutover <span class="arrow">→</span></a>
+        <a href="/celigo-ipaas" class="btn btn-secondary btn-big">See Celigo work <span class="arrow">→</span></a>
       </div>
       <div class="page-hero-trust">
-        <div class="page-hero-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> Certified Celigo Partner</div>
-        <div class="page-hero-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> Custom integrations where standard connectors fall short</div>
-        <div class="page-hero-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> Enterprise-grade connectivity</div>
-      </div>
-      <div class="page-hero-visual reveal" style="margin-top:48px;max-width:680px;">
-        <div style="position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow-card);">
-          <div style="position:absolute;top:14px;left:18px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-4);letter-spacing:2px;text-transform:uppercase;">— CELIGO FLOW · LIVE</div>
-          <svg viewBox="0 0 640 300" style="width:100%;height:auto;display:block;margin-top:12px;" role="img" aria-label="Celigo flow diagram: four source platforms feed through a Celigo hub to produce outcomes">
-            <defs>
-              <pattern id="cgrid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0 L0 0 0 32" fill="none" stroke="#09090b" stroke-width="0.4" stroke-opacity="0.04"/></pattern>
-              <path id="cp0" d="M120 60 Q 220 110, 320 150" fill="none"/>
-              <path id="cp1" d="M120 110 Q 220 130, 320 150" fill="none"/>
-              <path id="cp2" d="M120 190 Q 220 170, 320 150" fill="none"/>
-              <path id="cp3" d="M120 240 Q 220 195, 320 150" fill="none"/>
-              <path id="cp4" d="M520 150 L 320 150" fill="none"/>
-            </defs>
-            <rect width="640" height="300" fill="url(#cgrid)"/>
-            <g stroke="#09090b" stroke-opacity="0.18" stroke-width="0.7" fill="none"><use href="#cp0"/><use href="#cp1"/><use href="#cp2"/><use href="#cp3"/><use href="#cp4"/></g>
-            <circle r="2.5" fill="#5cb85c"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#cp0"/></animateMotion></circle>
-            <circle r="2.5" fill="#2563eb"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#cp1"/></animateMotion></circle>
-            <circle r="2.5" fill="#ec4899"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#cp2"/></animateMotion></circle>
-            <circle r="2.5" fill="#f59e0b"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#cp3"/></animateMotion></circle>
-            <circle r="2.5" fill="#06b6d4"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#cp4"/></animateMotion></circle>
-            <g font-family="'JetBrains Mono',monospace" font-size="10" font-weight="600">
-              <g transform="translate(80,60)"><circle r="14" fill="#fff" stroke="#5cb85c" stroke-width="1"/><circle r="4" fill="#5cb85c"/><text x="0" y="32" text-anchor="middle" fill="#09090b">Shopify</text></g>
-              <g transform="translate(80,110)"><circle r="14" fill="#fff" stroke="#2563eb" stroke-width="1"/><circle r="4" fill="#2563eb"/><text x="0" y="32" text-anchor="middle" fill="#09090b">NetSuite</text></g>
-              <g transform="translate(80,190)"><circle r="14" fill="#fff" stroke="#ec4899" stroke-width="1"/><circle r="4" fill="#ec4899"/><text x="0" y="32" text-anchor="middle" fill="#09090b">Klaviyo</text></g>
-              <g transform="translate(80,240)"><circle r="14" fill="#fff" stroke="#f59e0b" stroke-width="1"/><circle r="4" fill="#f59e0b"/><text x="0" y="32" text-anchor="middle" fill="#09090b">3PL</text></g>
-            </g>
-            <g transform="translate(320,150)">
-              <circle r="42" fill="#09090b"/>
-              <circle r="52" fill="none" stroke="#09090b" stroke-opacity="0.2" stroke-width="0.6" stroke-dasharray="2 6"/>
-              <text x="0" y="4" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="#fff" letter-spacing="2">CELIGO</text>
-            </g>
-            <g transform="translate(560,150)">
-              <circle r="14" fill="#fff" stroke="#06b6d4" stroke-width="1"/><circle r="4" fill="#06b6d4"/>
-              <text x="0" y="32" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="600" fill="#09090b">Outcomes</text>
-            </g>
-          </svg>
-        </div>
+        <div class="page-hero-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> Dual-path during overlap</div>
+        <div class="page-hero-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> NetSuite stays the system of record</div>
+        <div class="page-hero-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> Sequencing written before the date</div>
       </div>
     </div>
   </div>
@@ -218,61 +149,35 @@ gtag('config', 'G-XXXXXXXXXX');</script>
     <div class="section-head reveal">
       <div class="section-head-left"></div>
       <div class="section-head-right">
-        <h2 class="h2">Manual workflows shouldn't be a job description.</h2>
-        <p class="lede">These are the patterns that send mid-market ops teams looking for an integration partner. If two of them sound familiar, the math probably already works.</p>
+        <h2 class="h2">What breaks when the warehouse date leads.</h2>
+        <p class="lede">The go-live is a building. The cutover is the path orders, ASNs, and inventory take to get there. Those are not the same project.</p>
       </div>
     </div>
-
     <div class="problem-grid reveal-stagger">
-      <article class="problem-card"><span class="problem-tag">Pain</span><h3>Orders not syncing in real time</h3><p>Shopify and NetSuite drift hours apart. Finance closes against numbers that disagree with the storefront. Pick-pack slips reference yesterday's inventory.</p><div class="solution"><strong>Fix</strong><span>Real-time sync flows with retry logic and reconciliation reports.</span></div></article>
-      <article class="problem-card"><span class="problem-tag">Pain</span><h3>3PL waiting on manual data</h3><p>Daily exports. CSV uploads. Someone's full-time job is "making sure the 3PL has the file." If they're sick, fulfillment stalls.</p><div class="solution"><strong>Fix</strong><span>Bi-directional 3PL integration. Fulfillment confirmations auto-post.</span></div></article>
-      <article class="problem-card"><span class="problem-tag">Pain</span><h3>Manual payment reconciliation</h3><p><span class="tech">Stripe</span> + <span class="tech">Authorize.net</span> + ACH. Three sources, one ledger, and a spreadsheet keeping it all together. Month-end takes a week.</p><div class="solution"><strong>Fix</strong><span>Multi-processor reconciliation flows posting to the correct GL.</span></div></article>
-      <article class="problem-card"><span class="problem-tag">Pain</span><h3>EDI deadline with a hard date</h3><p>A retail partner mandates EDI by Q3. You don't have an EDI provider. You don't have the bandwidth. You don't have a plan.</p><div class="solution"><strong>Fix</strong><span>EDI integrations on Celigo with documented mapping and test harness.</span></div></article>
-      <article class="problem-card"><span class="problem-tag">Pain</span><h3>Last integration broke in 6 months</h3><p>The contractor disappeared. The docs were "in someone's head." Now you're paying twice — once for support, once for the rebuild.</p><div class="solution"><strong>Fix</strong><span>Every flow ships with runbooks, monitoring, and stays yours after handoff.</span></div></article>
-      <article class="problem-card"><span class="problem-tag">Pain</span><h3>Scaling breaks the process</h3><p>Manual workflows that worked at $5M revenue are collapsing at $25M. Volume is the problem; people aren't the solution.</p><div class="solution"><strong>Fix</strong><span>Automated flows + AI exception handling sized for 10x current volume.</span></div></article>
-    </div>
-  </div>
-</section>
-
-<section class="proof-strip">
-  <div class="container">
-    <div class="proof-strip-inner">
-      <div class="proof-strip-text">
-        <span class="proof-strip-dot"></span>
-        <div>
-          <div class="proof-strip-label">In production today</div>
-          <div class="proof-strip-main">Celigo flows running across ecommerce, distribution, and B2B clients — order sync, EDI, payment reconciliation, and more.</div>
-        </div>
-      </div>
-      <a href="/work" class="proof-strip-link">See active builds <span>→</span></a>
+      <article class="problem-card"><span class="problem-tag">Break</span><h3>The old path is still real</h3><p>Orders, returns, and inventory adjustments keep hitting the warehouse you are leaving. Pretending that path is closed on day one is how exceptions pile up in a spreadsheet.</p></article>
+      <article class="problem-card"><span class="problem-tag">Break</span><h3>Re-keying becomes the record</h3><p>When the new 3PL is live and Celigo is not, someone types the order in. That keystroke is now the system of record — until it is not, and finance cannot say which one is true.</p></article>
+      <article class="problem-card"><span class="problem-tag">Break</span><h3>ASNs and chargebacks lag</h3><p>Retail partners do not wait for your warehouse move. Missed ASNs and late invoice paths show up as chargebacks weeks after the date on the slide.</p></article>
+      <article class="problem-card"><span class="problem-tag">Break</span><h3>Inventory splits three ways</h3><p>On-hand in NetSuite, on-hand at the old 3PL, on-hand at the new one. Without a written rule for which quantity posts, you will sell what you do not have.</p></article>
+      <article class="problem-card"><span class="problem-tag">Break</span><h3>Celigo is half-cut over</h3><p>A few flows pointed at the new warehouse. The rest still write to the old one. Happy-path orders look fine. Exceptions do not.</p></article>
     </div>
   </div>
 </section>
 
 <section class="standard" style="background:var(--bg-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
   <div class="container">
-    <div class="split reveal">
-      <div class="split-text">
-        <h2 class="h2">The platform built for mid-market integration.</h2>
-        <p class="lede">Celigo gives us pre-built connectors to the systems you already run, built-in retry and error handling, monitoring out of the box, and an enterprise audit trail. We don't write infrastructure — we write business logic.</p>
-        <ul>
-          <li>Enterprise-grade connectivity (NetSuite, Shopify, Salesforce, more)</li>
-          <li>Visual flow builder with full code escape hatches</li>
-          <li>Built-in error handling + automated retries</li>
-          <li>Monitoring + alerting included</li>
-        </ul>
+    <div class="section-head reveal">
+      <div class="section-head-left"></div>
+      <div class="section-head-right">
+        <h2 class="h2">What we actually do.</h2>
+        <p class="lede">Not a staffed war room on the warehouse floor. Sequencing, dual-path Celigo, and NetSuite as the system of record — written before the date moves.</p>
       </div>
-      <div class="split-text">
-        <h2 class="h2">A Celigo Partner that actually ships.</h2>
-        <p class="lede">We're a certified Celigo partner — but more importantly, we're operators who've stood up these integrations at multiple mid-market companies. We know where flows break. We know how to monitor them. We know what "production-ready" actually means.</p>
-        <ul>
-          <li>Tailored pricing — no hourly meters</li>
-          <li>Senior practitioners on every build</li>
-          <li>Documentation as a deliverable</li>
-          <li>Optional ongoing support, never required</li>
-          <li>AI agents embedded where they pay off</li>
-        </ul>
-      </div>
+    </div>
+    <div class="grid-2 reveal-stagger">
+      <article class="card"><div class="card-num"><span>01</span></div><h3>Dual-path Celigo for the overlap</h3><p>Old warehouse and new warehouse live at the same time. Flows route by brand, SKU, order type, or date — whatever the move actually requires — so shipping does not stop while the new path comes online.</p></article>
+      <article class="card"><div class="card-num"><span>02</span></div><h3>Cutover sequencing written first</h3><p>Which orders, ASNs, inventory adjustments, and chargeback paths move when. The date is a milestone in that sequence, not the plan itself.</p></article>
+      <article class="card"><div class="card-num"><span>03</span></div><h3>Error handling for a move</h3><p>A 3PL cutover is an exception factory. Retries, dead-letter queues, and a documented path for the orders that will not post cleanly — not a Slack thread after go-live.</p></article>
+      <article class="card"><div class="card-num"><span>04</span></div><h3>NetSuite as the system of record</h3><p>One place inventory, fulfillments, and financials settle. Dual-path does not mean dual-post. The overlap rules keep NetSuite from counting the same order twice.</p></article>
+      <article class="card"><div class="card-num"><span>05</span></div><h3>Fixed-fee SOW after discovery</h3><p>Discovery produces the sequence and the number. You sign a scoped build — not an open-ended staff-aug engagement that starts when the warehouse calendar says so.</p></article>
     </div>
   </div>
 </section>
@@ -282,226 +187,32 @@ gtag('config', 'G-XXXXXXXXXX');</script>
     <div class="section-head reveal">
       <div class="section-head-left"></div>
       <div class="section-head-right">
-        <h2 class="h2">Four steps. Tailored deployment. No surprises.</h2>
-        <p class="lede">Every BuMa engagement is tailored to your operation, but the playbook is consistent: scope before we start, build to the spec, ship documented, stay to support.</p>
+        <h2 class="h2">Who this is for.</h2>
+        <p class="lede">Mid-market ecommerce and ops teams moving warehouses — not a platform migration for its own sake.</p>
+      </div>
+    </div>
+    <div class="grid-3 reveal-stagger">
+      <article class="card"><h3>A 3PL date is already on the calendar</h3><p>The building is contracted. The integration work has not been sequenced. Orders still have to ship through the overlap.</p></article>
+      <article class="card"><h3>Celigo already talks to the current warehouse</h3><p>The instance is live. Pointing a few flows at the new 3PL is not a cutover. The old path, the exceptions, and NetSuite still have to hold.</p></article>
+      <article class="card"><h3>NetSuite has to stay clean</h3><p>Finance will not accept two inventory numbers and a week of re-keyed orders. The system of record has to survive the move.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="standard" style="background:var(--bg-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-head-left"></div>
+      <div class="section-head-right">
+        <h2 class="h2">How the engagement runs.</h2>
+        <p class="lede">Four steps. The warehouse date is one milestone inside them — not the kickoff.</p>
       </div>
     </div>
     <div class="process-rail reveal-stagger">
-      <article class="process-step"><div class="process-step-top"><div class="process-num">1</div></div><div class="process-title">Discovery &amp; Scoping</div><p class="process-desc">We map your current systems, data flows, and pain points. You get a structured proposal with timeline and deliverables before any work starts.</p><div class="process-deliv"><strong>Deliverable</strong>Structured proposal, architecture diagram, go/no-go.</div></article>
-      <article class="process-step"><div class="process-step-top"><div class="process-num">2</div></div><div class="process-title">Architecture &amp; Build</div><p class="process-desc">Celigo flows configured to your business logic. Error handling, retries, and AI agents wired in where they fit. Documentation drafted in parallel.</p><div class="process-deliv"><strong>Deliverable</strong>Working flows in staging, draft runbooks, weekly demos.</div></article>
-      <article class="process-step"><div class="process-step-top"><div class="process-num">3</div></div><div class="process-title">Testing &amp; Go-Live</div><p class="process-desc">UAT against real data. We test edge cases, rebuild what's wrong, deploy to production with full rollback ready. Monitoring active from day one.</p><div class="process-deliv"><strong>Deliverable</strong>Production deploy, complete runbooks, monitoring live.</div></article>
-      <article class="process-step"><div class="process-step-top"><div class="process-num">4</div></div><div class="process-title">Support &amp; Optimization</div><p class="process-desc">We monitor, maintain, and adapt. New trading partner, new 3PL, new AI workflow — we update with you. Optional retainer, never required.</p><div class="process-deliv"><strong>Deliverable</strong>Integration monitoring and maintenance, quarterly reviews, optional retainer.</div></article>
-    </div>
-  </div>
-</section>
-
-<section class="standard" style="background:var(--bg-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-head-left"></div>
-      <div class="section-head-right">
-        <h2 class="h2">Sample builds on Celigo.</h2>
-        <p class="lede">A partial menu of what we've stood up. We're especially strong on EDI + NetSuite — most Celigo partners can't do EDI well, and most EDI shops don't know NetSuite. That intersection is our home.</p>
-      </div>
-    </div>
-
-    <div class="grid-3 reveal-stagger">
-      <article class="card">
-        <div class="card-num"><span>BUILD · 01</span></div>
-        <h3>Shopify → NetSuite</h3>
-        <p>Real-time order, customer, and inventory sync. The foundational ecommerce + ERP integration.</p>
-        <ul class="card-list">
-          <li>Real-time order + customer sync</li>
-          <li>Bi-directional inventory updates</li>
-          <li>Idempotent flows with retry</li>
-          <li>Scheduled reconciliation reports</li>
-        </ul>
-      </article>
-      <article class="card">
-        <div class="card-num"><span>BUILD · 02</span></div>
-        <h3>3PL ↔ NetSuite</h3>
-        <p>Outbound fulfillment requests, inbound confirmations, and inventory accuracy at scale.</p>
-        <ul class="card-list">
-          <li>Outbound fulfillment requests</li>
-          <li>Inbound shipment confirmations</li>
-          <li>Daily inventory reconciliation</li>
-          <li>Multi-warehouse support</li>
-        </ul>
-      </article>
-      <article class="card">
-        <div class="card-num"><span>BUILD · 03</span></div>
-        <h3>EDI 850 / 855 / 856 / 810</h3>
-        <p>Retail-partner EDI for orders, acknowledgments, shipments, and invoices — <span class="tech">Celigo</span> as the integration layer.</p>
-        <ul class="card-list">
-          <li>ANSI X12 + EDIFACT support</li>
-          <li>Per-partner mapping + validation</li>
-          <li>Trading partner test harness</li>
-          <li>Full audit trail in NetSuite</li>
-        </ul>
-      </article>
-      <article class="card">
-        <div class="card-num"><span>BUILD · 04</span></div>
-        <h3>Stripe → NetSuite</h3>
-        <p>Charges, refunds, and fees flowing into the right places — no more manual reconciliation.</p>
-        <ul class="card-list">
-          <li>Charges posted as customer payments</li>
-          <li>Refund reconciliation automated</li>
-          <li>Stripe fees coded to expense GL</li>
-          <li>Multi-currency support</li>
-        </ul>
-      </article>
-      <article class="card">
-        <div class="card-num"><span>BUILD · 05</span></div>
-        <h3>Salesforce ↔ NetSuite</h3>
-        <p>Bi-directional customer and opportunity sync. Closed-won deals become sales orders. No double entry.</p>
-        <ul class="card-list">
-          <li>Bi-directional customer sync</li>
-          <li>Opportunity → sales order</li>
-          <li>Custom field mapping</li>
-          <li>Conflict resolution rules</li>
-        </ul>
-      </article>
-      <article class="card">
-        <div class="card-num"><span>BUILD · 06</span></div>
-        <h3>Klaviyo ↔ Shopify ↔ NetSuite</h3>
-        <p>Customer + order data flowing where marketing, ops, and finance each need it. One source of truth per record.</p>
-        <ul class="card-list">
-          <li>Unified customer data layer</li>
-          <li>Order events to Klaviyo segments</li>
-          <li>Subscription + lifecycle hooks</li>
-          <li>Marketing-attributable revenue</li>
-        </ul>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="standard device-section alt">
-  <div class="container">
-    <div class="dev-split">
-      <div class="dev-copy reveal">
-        <h2 class="h2">What a BuMa-built Celigo flow looks like.</h2>
-        <p class="lede">A real production flow — sanitized. Branching logic, retry handling, error queues, and monitoring built in from day one.</p>
-        <ul>
-          <li>Visual flow builder — every step inspectable, every transformation documented</li>
-          <li>Error queues + automated retries — surfaced to your team only when human judgment is needed</li>
-          <li>Per-flow metrics — run count, success rate, average latency, failure causes</li>
-          <li>Version history — every change tracked, every flow rollback-able in one click</li>
-        </ul>
-      </div>
-      <div class="dev-laptop reveal">
-        <div class="dev-laptop-screen">
-          <div class="dev-laptop-display">
-            <div class="dev-chrome">
-              <div class="dots"><span></span><span></span><span></span></div>
-              <div class="url">integrator.io · flows · shopify-to-netsuite</div>
-              <div class="meta">LIVE</div>
-            </div>
-            <div style="padding:14px 16px; background:#fafafa;">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <div style="font-family:'Inter'; font-weight:700; font-size:13px; color:var(--ink);">Shopify Orders → NetSuite</div>
-                <div style="display:flex; gap:6px;">
-                  <span style="font-family:'JetBrains Mono',monospace; font-size:9px; color:#16a34a; background:#dcfce7; padding:2px 6px; border-radius:3px; letter-spacing:1px;">RUNNING</span>
-                  <span style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--ink-3); background:#e4e4e7; padding:2px 6px; border-radius:3px; letter-spacing:1px;">v 4.2</span>
-                </div>
-              </div>
-              <svg viewBox="0 0 560 280" style="width:100%; height:auto; display:block;">
-                <defs>
-                  <pattern id="celGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <path d="M20 0 L0 0 0 20" fill="none" stroke="#09090b" stroke-width="0.4" stroke-opacity="0.05"/>
-                  </pattern>
-                  <path id="cfp1" d="M 90 60 L 220 60" fill="none"/>
-                  <path id="cfp2" d="M 290 60 L 420 60 L 420 130" fill="none"/>
-                  <path id="cfp3" d="M 290 80 Q 350 80, 350 150 L 350 200" fill="none"/>
-                  <path id="cfp4" d="M 420 170 L 420 230 L 490 230" fill="none"/>
-                  <path id="cfp5" d="M 350 240 L 490 240" fill="none"/>
-                </defs>
-                <rect width="560" height="280" fill="url(#celGrid)"/>
-                <g stroke="#9CA3AF" stroke-width="1.3" fill="none" stroke-linecap="round">
-                  <use href="#cfp1"/><use href="#cfp2"/><use href="#cfp3"/><use href="#cfp4"/><use href="#cfp5"/>
-                </g>
-                <g>
-                  <circle r="3" fill="#22D3EE"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#cfp1"/></animateMotion></circle>
-                  <circle r="3" fill="#4F46E5"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#cfp2"/></animateMotion></circle>
-                  <circle r="3" fill="#8B5CF6"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#cfp3"/></animateMotion></circle>
-                  <circle r="3" fill="#4F46E5"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#cfp4"/></animateMotion></circle>
-                  <circle r="3" fill="#FB7185"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#cfp5"/></animateMotion></circle>
-                </g>
-                <g font-family="'Inter',sans-serif">
-                  <g transform="translate(50,60)"><rect x="-40" y="-22" width="80" height="44" rx="6" fill="#fff" stroke="#22D3EE" stroke-width="1.2"/><text x="0" y="-3" text-anchor="middle" font-size="9" font-weight="600" fill="var(--ink-4)" letter-spacing="0.8">TRIGGER</text><text x="0" y="11" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">Shopify</text></g>
-                  <g transform="translate(255,70)"><rect x="-35" y="-22" width="70" height="44" rx="6" fill="#fff" stroke="#09090b" stroke-width="1.2"/><text x="0" y="-3" text-anchor="middle" font-size="9" font-weight="600" fill="var(--ink-4)" letter-spacing="0.8">FILTER</text><text x="0" y="11" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">Validate</text></g>
-                  <g transform="translate(420,150)"><rect x="-44" y="-22" width="88" height="44" rx="6" fill="#fff" stroke="#4F46E5" stroke-width="1.2"/><text x="0" y="-3" text-anchor="middle" font-size="9" font-weight="600" fill="var(--ink-4)" letter-spacing="0.8">DESTINATION</text><text x="0" y="11" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">NetSuite</text></g>
-                  <g transform="translate(350,220)"><rect x="-44" y="-22" width="88" height="44" rx="6" fill="#fff" stroke="#FB7185" stroke-width="1.2"/><text x="0" y="-3" text-anchor="middle" font-size="9" font-weight="600" fill="var(--ink-4)" letter-spacing="0.8">EXCEPTION</text><text x="0" y="11" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">Slack alert</text></g>
-                  <g transform="translate(525,235)"><rect x="-32" y="-16" width="64" height="32" rx="4" fill="#fff" stroke="#9CA3AF" stroke-width="1"/><text x="0" y="4" text-anchor="middle" font-size="10" font-weight="600" fill="var(--ink)">3PL</text></g>
-                </g>
-              </svg>
-              <div style="display:flex; justify-content:space-between; gap:12px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line-soft); font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-3);">
-                <span><span style="color:var(--good);">●</span> 1,284 runs / 24h</span>
-                <span><span style="color:var(--good);">●</span> 99.7% success</span>
-                <span><span style="color:var(--good);">●</span> avg 312ms</span>
-                <span><span style="color:#F59E0B;">●</span> 3 in retry</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="dev-laptop-base"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="standard">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-head-left"></div>
-      <div class="section-head-right">
-        <h2 class="h2">The orchestration layer is just the start.</h2>
-        <p class="lede">Most engagements combine Celigo with NetSuite on the back end — and, when the instance is already live, a fixed-fee audit before any rebuild. Same playbook. Written SOW first.</p>
-      </div>
-    </div>
-
-    <div class="crosslink-grid reveal-stagger">
-      <article class="crosslink-card">
-        <div class="crosslink-tag">Layer 02 · ERP Integration</div>
-        <h3>Where your flows actually post.</h3>
-        <p>NetSuite is our home turf — most of our integration work lives here. For other ERPs, we integrate through Celigo rather than re-implementing the ERP itself.</p>
-        <a href="/netsuite-integration">See ERP work <span>→</span></a>
-      </article>
-      <article class="crosslink-card">
-        <div class="crosslink-tag">Existing instance · Audit</div>
-        <h3>You already bought Celigo. The flows are half-built.</h3>
-        <p>A fixed-fee audit of the instance you already run — then a rebuild SOW with error handling, documentation, and a number before any contract is signed.</p>
-        <a href="/celigo-audit">Start with the Celigo audit <span>→</span></a>
-      </article>
-      <article class="crosslink-card">
-        <div class="crosslink-tag">3PL · Cutover</div>
-        <h3>The warehouse go-live is not the cutover.</h3>
-        <p>Sequence Celigo and NetSuite so orders keep shipping while you switch 3PLs — without re-keying, missed ASNs, or inventory drift.</p>
-        <a href="/3pl-cutover">See 3PL cutover work <span>→</span></a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="stats-band">
-  <div class="container">
-    <div class="stats-band-grid">
-      <div><h2 class="stats-band-title">The numbers behind<span class="sub">"it just works."</span></h2></div>
-      <div>
-        <div class="stats-band-kpis">
-          <div><div class="stats-band-num text">Limited</div><div class="stats-band-label">Projects per quarter</div></div>
-          <div><div class="stats-band-num text">Celigo</div><div class="stats-band-label">iPaaS Integration Platform</div></div>
-          <div><div class="stats-band-num text">Direct</div><div class="stats-band-label">API integrations</div></div>
-          <div><div class="stats-band-num">500<span class="unit">+</span></div><div class="stats-band-label">Projects shipped</div></div>
-        </div>
-        <div class="stats-band-spark" data-spark>
-          <div class="label">Flows shipped · trailing 90 days</div>
-          <svg class="spark-svg" viewBox="0 0 360 32" preserveAspectRatio="none">
-            <path d="M0 26 L24 22 L48 24 L72 18 L96 19 L120 13 L144 16 L168 8 L192 10 L216 4 L240 9 L264 5 L288 11 L312 6 L336 9 L360 3"/>
-          </svg>
-          <div class="spark-val">+217%</div>
-        </div>
-      </div>
+      <article class="process-step"><div class="process-step-top"><div class="process-num">1</div></div><div class="process-title">Discovery &amp; sequencing</div><p class="process-desc">Current warehouse flows, the new 3PL's interface, order types, ASN and inventory rules. The cutover sequence is written before anyone commits a go-live date in the SOW.</p><div class="process-deliv"><strong>Deliverable</strong>Sequencing memo, dual-path rules, go/no-go.</div></article>
+      <article class="process-step"><div class="process-step-top"><div class="process-num">2</div></div><div class="process-title">Architecture &amp; build</div><p class="process-desc">Celigo flows for overlap: old path, new path, and the exceptions that will fire when both are live. NetSuite mappings stay explicit. Documentation drafted in parallel.</p><div class="process-deliv"><strong>Deliverable</strong>Staging flows, draft runbooks, weekly review.</div></article>
+      <article class="process-step"><div class="process-step-top"><div class="process-num">3</div></div><div class="process-title">Overlap &amp; go-live</div><p class="process-desc">Both warehouses ship. We watch the paths, drain exceptions, and move volume on the sequence — not on a single flip. Nothing silent in NetSuite.</p><div class="process-deliv"><strong>Deliverable</strong>Production overlap, monitoring live, exception log.</div></article>
+      <article class="process-step"><div class="process-step-top"><div class="process-num">4</div></div><div class="process-title">Decommission &amp; support</div><p class="process-desc">Old path turned down when the sequence says it is empty. Runbooks handed over. Optional support for the first trading-partner cycles after the move.</p><div class="process-deliv"><strong>Deliverable</strong>Decommission checklist, final runbooks, optional retainer.</div></article>
     </div>
   </div>
 </section>
@@ -510,29 +221,24 @@ gtag('config', 'G-XXXXXXXXXX');</script>
   <div class="container">
     <div class="faq-grid">
       <div class="faq-side reveal">
-        <h2 class="h2">Questions on Celigo work.</h2>
+        <h2 class="h2">Questions before the date.</h2>
         <p class="lede">Not finding what you need? <a href="/contact" class="faq-side-link">Ask us directly →</a></p>
       </div>
       <div class="faq-list reveal">
-        <div class="faq-item"><button class="faq-q">What if we already have Celigo running?<span class="faq-toggle">+</span></button><div class="faq-a">Many of our engagements are audit-and-rebuild on existing Celigo deployments — flows built by previous partners that don't error-handle, don't document, or don't scale. Start with a <a href="/celigo-audit">fixed-fee audit</a> of the instance you already run, then a rebuild SOW.</div></div>
-        <div class="faq-item"><button class="faq-q">How much does a typical engagement cost?<span class="faq-toggle">+</span></button><div class="faq-a">Every engagement is tailored — single integration builds through multi-system orchestration. You get a number and a timeline before any contract is signed.</div></div>
-        <div class="faq-item"><button class="faq-q">We're already on a different iPaaS. Should we switch?<span class="faq-toggle">+</span></button><div class="faq-a">Probably not just for the sake of switching. If your current platform is working and well-documented, we can build on other iPaaS platforms when the project justifies it. But if you're paying for licenses you don't use, or stuck on a platform without good NetSuite tooling, Celigo is usually the right move for mid-market.</div></div>
-        <div class="faq-item"><button class="faq-q">Do we need to buy Celigo licenses to work with you?<span class="faq-toggle">+</span></button><div class="faq-a">Yes, Celigo is the platform we deploy on. As a Celigo partner we can help with licensing, but Celigo charges separately for the platform. Plan on platform cost plus our tailored implementation fee.</div></div>
-        <div class="faq-item"><button class="faq-q">What if our trading partners use different formats?<span class="faq-toggle">+</span></button><div class="faq-a">Celigo handles Enterprise-grade connectivity plus custom HTTP/REST/SOAP APIs. For EDI we support X12 and EDIFACT with full mapping per trading partner. If your partner has a weird requirement, we'll scope it in discovery before committing to a fixed fee.</div></div>
-        <div class="faq-item"><button class="faq-q">Can we self-manage the flows after you build them?<span class="faq-toggle">+</span></button><div class="faq-a">Yes. Every BuMa build comes with complete documentation and runbooks. Your team can fully own and modify the flows. Many clients do exactly this. The optional retainer is for when you want a specialist on call, not because you're locked in.</div></div>
-        <div class="faq-item"><button class="faq-q">How do you handle errors and retries?<span class="faq-toggle">+</span></button><div class="faq-a">Celigo has built-in retry logic, dead-letter queues, and alerting. We layer business-specific error handling on top — for example, a Shopify order that fails NetSuite posting routes to a Slack channel with full context, then retries on a schedule. Every flow has documented error paths.</div></div>
+        <div class="faq-item"><button class="faq-q">Can we keep shipping from the old 3PL while the new one comes online?<span class="faq-toggle">+</span></button><div class="faq-a">Yes. Dual-path Celigo is the point of the engagement — the old warehouse keeps shipping while the new one is sequenced in. Orders stay live. We write the overlap rules before anyone flips a date.</div></div>
+        <div class="faq-item"><button class="faq-q">We already have Celigo for the current warehouse. Do you rebuild everything?<span class="faq-toggle">+</span></button><div class="faq-a">Not by default. We read the instance you already run, keep what is production-safe, and rebuild the paths that will break during the move. If the current flows are half-cut over, that is usually the work — not a greenfield rebuild for its own sake.</div></div>
+        <div class="faq-item"><button class="faq-q">How do you keep NetSuite from double-counting during the move?<span class="faq-toggle">+</span></button><div class="faq-a">NetSuite stays the system of record. Cutover sequencing is written first: which orders, ASNs, and inventory adjustments post where, and which path is silent. Dual-path does not mean dual-post. The overlap rules are in the SOW before go-live.</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- BuMa Lead Form section — primary conversion (CTA opens lead form popup) -->
 <section class="standard lf-section" style="background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
   <div class="container">
     <div style="max-width:760px;margin:0 auto;text-align:center;">
-      <h2 class="display" style="font-size:clamp(28px,4vw,40px);line-height:1.08;margin-bottom:14px;">Ready to Simplify Your Integrations?</h2>
-      <p class="lede" style="margin:0 auto 36px;max-width:560px;">Tell us about your project and we'll show you how BuMa can help.</p>
-      <a href="/contact" class="btn btn-primary btn-big" data-leadform>Start your project <span class="arrow">→</span></a>
+      <h2 class="display" style="font-size:clamp(28px,4vw,40px);line-height:1.08;margin-bottom:14px;">Let's map the cutover before the date does.</h2>
+      <p class="lede" style="margin:0 auto 36px;max-width:560px;">Bring the warehouse date, the current Celigo instance, and how orders move today. We'll tell you what the sequence has to be — or if we are not the right partner for it.</p>
+      <a href="/contact" class="btn btn-primary btn-big" data-leadform>Talk through the move <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
@@ -543,16 +249,16 @@ gtag('config', 'G-XXXXXXXXXX');</script>
   </div>
   <div class="container">
     <div class="final-cta-content reveal">
-      <h2 class="display">Ready to stop managing your integrations manually?</h2>
-      <p class="lede">Bring your stack, your pain points, and your timeline. As Celigo partners, we'll solution your business processes and outline the right roadmap to get there.</p>
+      <h2 class="display">Let's map the cutover before the date does.</h2>
+      <p class="lede">The warehouse will go live on its own calendar. The integration does not have to be an afterthought.</p>
       <div class="final-cta-actions">
-        <a href="/contact" class="btn btn-primary btn-big">Talk to an integration architect <span class="arrow">→</span></a>
-        <a href="/work" class="btn btn-secondary btn-big">See what we've shipped <span class="arrow">→</span></a>
+        <a href="/contact" class="btn btn-primary btn-big">Schedule a discovery call <span class="arrow">→</span></a>
+        <a href="/netsuite-integration" class="btn btn-secondary btn-big">NetSuite as system of record <span class="arrow">→</span></a>
       </div>
       <div class="final-meta">
-        <div class="final-meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> Response in 24h</div>
-        <div class="final-meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> Strategic consultation</div>
-        <div class="final-meta-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> 30 min · No prep</div>
+        <div class="final-meta-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> Response in 24h</div>
+        <div class="final-meta-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> Sequencing before the SOW</div>
+        <div class="final-meta-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg> 30 min · No prep</div>
       </div>
     </div>
   </div>
