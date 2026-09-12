@@ -1,9 +1,9 @@
 # BuMa Technology
 
-> BuMa Technology (bumatechnology.com) is an integration partner for mid-market ecommerce
-> and order-to-cash brands. BuMa designs, builds, and supports Celigo-based integrations,
-> NetSuite ERP connectivity, 3PL cutover sequencing, and operational dashboards. Based in
-> Orlando, FL.
+> BuMa Technology (bumatechnology.com) is an iPaaS strategic partner and Oracle NetSuite
+> specialist for mid-market ecommerce and order-to-cash brands. BuMa designs, builds, and
+> supports Celigo-based integrations, NetSuite ERP connectivity, 3PL cutover sequencing,
+> and operational dashboards. Based in Orlando, FL.
 
 ## Services
 
@@ -33,7 +33,7 @@
 
 ## Company
 
-- [About](https://bumatechnology.com/about): Strategic integration partner for mid-market
-  O2C — not a staffing shop. Celigo, NetSuite, storefronts, 3PLs, any file or API.
+- [About](https://bumatechnology.com/about): 20+ senior practitioners; 500+ projects shipped
+  in the company's history. iPaaS Strategic Partner. Oracle NetSuite Platform Specialist.
 - [Contact](https://bumatechnology.com/contact): 189 S Orange Ave, Suite 2020 #B, Orlando, FL
   32801 · 321-527-8061 · support@bumatechnology.com. Response within one business day.
