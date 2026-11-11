@@ -1,69 +1,169 @@
-/* BuMa Lead Form — site-wide contact form (embeds JotForm form 261695091611054).
+/* BuMa Lead Form — site-wide contact form (native Buma CRM form "Website Lead Intake").
  * Single shared asset on every page: <script src="/leadform.js" defer></script>
  *
- * Embeds the live JotForm (https://form.jotform.com/261695091611054) so submissions are
- * handled entirely by JotForm — no field-mapping to keep in sync, no silent POST failures.
- * We use the iframe embed rather than JotForm's jsform <script> tag because jsform relies on
- * document.write, which blanks the page when injected into the JS-built modal after load; the
- * iframe renders the identical form and is safe to mount dynamically. The iframe auto-resizes
- * via JotForm's postMessage "setHeight" events (handled below — no third-party JS required).
+ * Renders an on-brand HTML form and posts it to Buma CRM's public form endpoint
+ * (submitPublicCRMForm on vbuma2-0.base44.app). Buma CRM creates/matches the contact and
+ * company, tags the contact "website", and emails the owner notification.
+ * The CRM-hosted form page sends X-Frame-Options: DENY, so it cannot be iframed; this native
+ * form posts the same JSON payload the CRM's own public form page sends.
+ *
+ * Replaces the JotForm iframe (form 261695091611054). ROLLBACK: revert the commit that
+ * introduced this file; the previous leadform.js restores the JotForm embed unchanged.
  *
  * Appears in:
  *   (a) a global modal opened by the floating "Let's Talk" button and any /contact CTA, and
  *   (b) any <div data-buma-form></div> placed inline on a page (the form sections).
  * Accessible modal: overlay, ESC, click-out, focus trap, scroll lock, focus restore.
+ * Attribution: landing URL, referrer, UTM and gclid are captured on first page view of the
+ * session (sessionStorage) and sent as hidden fields + submission metadata.
  */
 (function () {
   "use strict";
 
-  var FORM_ID = "261695091611054";
-  var FORM_SRC = "https://form.jotform.com/" + FORM_ID;
-  // Any CTA whose destination is the contact page is treated as a lead-capture trigger.
+  /* ---------- configuration ---------- */
+  // Buma CRM form "Website Lead Intake" (id 6af3bc26b504b7a25ac32b99).
+  // CRM_FORM_TOKEN is the public token from Buma CRM -> Forms -> Website Lead Intake -> Copy link
+  // (the part after /f/). It is a public, non-secret identifier (it appears in the share URL).
+  var CRM_APP_ID = "6a5165a4bad7da9aadf2b7ca";
+  var CRM_ENDPOINT = "https://vbuma2-0.base44.app/api/apps/" + CRM_APP_ID + "/functions/submitPublicCRMForm";
+  var CRM_FORM_TOKEN = ""; // REQUIRED before release — see PR cutover checklist.
+  var FALLBACK_EMAIL = "support@bumatechnology.com";
+  var ATTR_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid"];
+  var ATTR_STORE = "buma_lf_attr";
+
   var CTA_SELECTOR = [
     'a[href="/contact"]',
     'a[href$="bumatechnology.com/contact"]',
     "[data-leadform]"
   ].join(",");
 
-  var injected = false, overlay, dialog, lastFocus, resizeWired = false;
+  var injected = false, overlay, dialog, lastFocus, uid = 0;
 
-  /* ---------- the form (live JotForm iframe) ---------- */
+  /* ---------- attribution ---------- */
 
-  function renderInto(el) {
-    var iframe = document.createElement("iframe");
-    iframe.className = "bf-jf";
-    iframe.id = "JotFormIFrame-" + FORM_ID;
-    iframe.title = "Contact BuMa Technology";
-    iframe.src = FORM_SRC;
-    iframe.setAttribute("allowtransparency", "true");
-    iframe.setAttribute("allow", "geolocation; microphone; camera; fullscreen; payment");
-    iframe.setAttribute("frameborder", "0");
-    iframe.setAttribute("scrolling", "no");
-    el.innerHTML = "";
-    el.appendChild(iframe);
-    wireResize();
+  function readAttr() {
+    var stored = null;
+    try { stored = JSON.parse(sessionStorage.getItem(ATTR_STORE) || "null"); } catch (e) {}
+    var q = new URLSearchParams(window.location.search), fresh = {}, hasUtm = false;
+    ATTR_KEYS.forEach(function (k) { var v = q.get(k); if (v) { fresh[k] = v.slice(0, 200); hasUtm = true; } });
+    if (!stored || hasUtm) {
+      stored = fresh;
+      stored.landing_url = window.location.href.split("#")[0].slice(0, 500);
+      stored.referrer = (document.referrer || "").slice(0, 500);
+      try { sessionStorage.setItem(ATTR_STORE, JSON.stringify(stored)); } catch (e) {}
+    }
+    return stored;
   }
 
-  // JotForm posts a height message so the embed can fit its content. Older builds send the
-  // string "setHeight:<px>:<formID>"; newer ones may send {type:"setHeight",height:<px>}.
-  // One listener resizes every embedded BuMa form iframe (modal + any inline mounts).
-  function wireResize() {
-    if (resizeWired) return;
-    resizeWired = true;
-    window.addEventListener("message", function (e) {
-      var h = 0, d = e.data;
-      if (typeof d === "string") {
-        if (d.indexOf("setHeight") !== 0) return;
-        h = parseInt(d.split(":")[1], 10);
-      } else if (d && d.type === "setHeight") {
-        h = parseInt(d.height, 10);
-      } else {
-        return;
-      }
-      if (!h) return;
-      var frames = document.querySelectorAll(".bf-jf");
-      Array.prototype.forEach.call(frames, function (f) { f.style.height = h + "px"; });
+  /* ---------- the form (native, posts to Buma CRM) ---------- */
+
+  function field(id, name, label, type, auto, extra) {
+    var input = type === "textarea"
+      ? '<textarea class="bf-input bf-ta" id="' + id + '" name="' + name + '" rows="5" required aria-required="true"' + (extra || "") + "></textarea>"
+      : '<input class="bf-input" id="' + id + '" name="' + name + '" type="' + type + '" autocomplete="' + auto + '" required aria-required="true"' + (extra || "") + " />";
+    return '<div class="bf-field" data-f="' + name + '"><label class="bf-label" for="' + id + '">' + label +
+      '<span class="bf-req" aria-hidden="true">*</span></label>' + input +
+      '<p class="bf-err" id="' + id + '-err" hidden></p></div>';
+  }
+
+  function renderInto(el) {
+    var p = "bf" + (++uid) + "-";
+    el.innerHTML =
+      '<form class="bf-form" novalidate data-provider="buma_crm">' +
+        '<fieldset class="bf-row"><legend class="bf-label">Full Name<span class="bf-req" aria-hidden="true">*</span></legend>' +
+          field(p + "first", "first_name", "First Name", "text", "given-name") +
+          field(p + "last", "last_name", "Last Name", "text", "family-name") +
+        "</fieldset>" +
+        field(p + "email", "email", "Email Address", "email", "email", ' placeholder="example@example.com"') +
+        field(p + "phone", "phone", "Phone Number", "tel", "tel", ' placeholder="(000) 000-0000"') +
+        field(p + "company", "company", "Company Name", "text", "organization") +
+        field(p + "details", "project_details", "Tell us about your project", "textarea", "off") +
+        // honeypot: hidden from people and assistive tech; bots that fill it are rejected server-side
+        '<div class="bf-hp-wrap" aria-hidden="true"><label>Website<input class="bf-hp" type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>' +
+        '<p class="bf-status" role="alert" aria-live="assertive" hidden></p>' +
+        '<button type="submit" class="bf-submit">Submit</button>' +
+      "</form>" +
+      '<div class="bf-thanks" tabindex="-1" hidden><div class="bf-thanks-title">Thank you</div>' +
+        '<p>Thanks — we received your project details. We respond within one business day.</p></div>';
+    var form = el.querySelector("form");
+    form.addEventListener("submit", function (e) { e.preventDefault(); submit(form, el); });
+    form.addEventListener("input", function (e) { if (e.target.classList.contains("bf-input")) setErr(e.target, ""); });
+  }
+
+  function setErr(input, msg) {
+    var err = document.getElementById(input.id + "-err");
+    if (!err) return;
+    err.textContent = msg; err.hidden = !msg;
+    if (msg) { input.setAttribute("aria-invalid", "true"); input.setAttribute("aria-describedby", err.id); }
+    else { input.removeAttribute("aria-invalid"); input.removeAttribute("aria-describedby"); }
+  }
+
+  function validate(form) {
+    var first = null;
+    Array.prototype.forEach.call(form.querySelectorAll(".bf-input"), function (i) {
+      var v = i.value.trim(), msg = "";
+      if (!v) msg = "This field is required.";
+      else if (i.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) msg = "Enter a valid email address.";
+      else if (i.type === "tel" && v.replace(/\D/g, "").length < 7) msg = "Please enter a valid phone number.";
+      setErr(i, msg);
+      if (msg && !first) first = i;
     });
+    if (first) first.focus();
+    return !first;
+  }
+
+  function status(form, msg) {
+    var s = form.querySelector(".bf-status");
+    s.innerHTML = msg; s.hidden = !msg;
+  }
+
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "lf-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
+  }
+
+  function submit(form, root) {
+    status(form, "");
+    if (!validate(form)) return;
+    var btn = form.querySelector(".bf-submit");
+    var fail = 'Something went wrong sending your details. Please try again, or email <a href="mailto:' +
+      FALLBACK_EMAIL + '">' + FALLBACK_EMAIL + "</a>.";
+    if (!CRM_FORM_TOKEN) { status(form, fail); return; }
+    var val = function (n) { return (form.elements[n].value || "").trim(); };
+    var attr = readAttr();
+    var data = {
+      first_name: val("first_name"), last_name: val("last_name"), email: val("email"),
+      phone: val("phone"), company: val("company"), project_details: val("project_details"),
+      source: "website", form_provider: "buma_crm",
+      landing_url: attr.landing_url || "", referrer: attr.referrer || ""
+    };
+    ATTR_KEYS.forEach(function (k) { data[k] = attr[k] || ""; });
+    var meta = {
+      started_at: form.getAttribute("data-started") || new Date().toISOString(),
+      completed_at: new Date().toISOString(),
+      user_agent: navigator.userAgent,
+      referrer: attr.referrer || "",
+      page_url: window.location.href.split("#")[0]
+    };
+    ATTR_KEYS.forEach(function (k) { if (attr[k]) meta[k] = attr[k]; });
+    var key = form.getAttribute("data-key") || uuid(); // idempotency: same key on retry
+    form.setAttribute("data-key", key);
+    btn.disabled = true; btn.textContent = "Sending…";
+    fetch(CRM_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-App-Id": CRM_APP_ID },
+      body: JSON.stringify({ token: CRM_FORM_TOKEN, submission_key: key, data: data, hp: form.elements.website.value || "", metadata: meta })
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) {
+        if (!r.ok || !j.success) throw new Error(j.error || "submit failed");
+      });
+    }).then(function () {
+      form.hidden = true;
+      var t = root.querySelector(".bf-thanks"); t.hidden = false; t.focus();
+      if (window.dataLayer) window.dataLayer.push({ event: "generate_lead", form_provider: "buma_crm" });
+    }).catch(function () {
+      status(form, fail);
+    }).then(function () { btn.disabled = false; btn.textContent = "Submit"; });
   }
 
   /* ---------- styles ---------- */
@@ -71,7 +171,6 @@
   function injectStyles() {
     if (document.getElementById("lf-styles")) return;
     var css =
-      // modal shell
       ".lf-overlay{position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;" +
       "padding:clamp(12px,4vw,40px);background:rgba(9,9,11,0.62);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);" +
       "opacity:0;visibility:hidden;transition:opacity .3s var(--ease,ease),visibility .3s var(--ease,ease);}" +
@@ -89,13 +188,34 @@
       "background:var(--bg-alt,#f4f4f5);transition:background .2s var(--ease,ease),color .2s var(--ease,ease);}" +
       ".lf-close:hover{background:var(--line,#e4e4e7);color:var(--ink,#09090b);}" +
       ".lf-close:focus-visible{outline:2px solid var(--ink,#09090b);outline-offset:2px;}" +
-      ".lf-body{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--surface,#fff);}" +
+      ".lf-body{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;background:var(--surface,#fff);padding:20px;}" +
       "body.lf-lock{overflow:hidden;}" +
-      // embedded JotForm iframe (modal + inline mounts)
+      // native form
       "[data-buma-form]{max-width:680px;margin:0 auto;}" +
-      ".bf-jf{display:block;width:1px;min-width:100%;max-width:100%;border:none;background:transparent;" +
-      "height:720px;}" +
-      ".lf-body .bf-jf{height:680px;}" +
+      ".bf-form{display:grid;gap:14px;font-family:'Inter',system-ui,sans-serif;color:var(--ink,#09090b);}" +
+      ".bf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;border:0;margin:0;padding:0;min-width:0;}" +
+      ".bf-row>legend{grid-column:1/-1;margin-bottom:6px;padding:0;}" +
+      ".bf-row .bf-label{font-weight:500;font-size:12.5px;color:var(--ink-3,#3f3f46);}" +
+      ".bf-row .bf-field .bf-req{display:none;}" +
+      ".bf-form[hidden],.bf-thanks[hidden],.bf-err[hidden],.bf-status[hidden]{display:none!important;}" +
+      "@media (max-width:540px){.bf-row{grid-template-columns:1fr;}}" +
+      ".bf-field{display:grid;gap:6px;min-width:0;}" +
+      ".bf-label{font-size:13.5px;font-weight:600;letter-spacing:-0.01em;color:var(--ink,#09090b);}" +
+      ".bf-req{color:#dc2626;margin-left:3px;}" +
+      ".bf-input{width:100%;box-sizing:border-box;font:inherit;font-size:15px;padding:11px 12px;color:var(--ink,#09090b);" +
+      "background:var(--surface,#fff);border:1px solid var(--line,#e4e4e7);border-radius:var(--r,6px);transition:border-color .2s ease,box-shadow .2s ease;}" +
+      ".bf-input:focus{outline:none;border-color:var(--ink,#09090b);box-shadow:0 0 0 3px rgba(9,9,11,0.10);}" +
+      ".bf-input[aria-invalid=true]{border-color:#dc2626;}" +
+      ".bf-ta{resize:vertical;min-height:120px;}" +
+      ".bf-err{margin:0;font-size:12.5px;color:#b91c1c;}" +
+      ".bf-status{margin:0;font-size:13.5px;color:#b91c1c;}.bf-status a{color:inherit;}" +
+      ".bf-hp-wrap{position:absolute!important;left:-10000px;width:1px;height:1px;overflow:hidden;}" +
+      ".bf-submit{justify-self:start;font:inherit;font-weight:600;font-size:15px;padding:12px 22px;border:0;border-radius:var(--r,6px);" +
+      "color:#fff;background:var(--ink,#09090b);cursor:pointer;transition:background .2s ease;}" +
+      ".bf-submit:hover{background:var(--ink-2,#18181b);}.bf-submit:disabled{opacity:.6;cursor:progress;}" +
+      ".bf-submit:focus-visible{outline:2px solid var(--ink,#09090b);outline-offset:3px;}" +
+      ".bf-thanks{font-family:'Inter',system-ui,sans-serif;padding:24px 4px;color:var(--ink-3,#3f3f46);}" +
+      ".bf-thanks:focus{outline:none;}.bf-thanks-title{font-weight:700;font-size:20px;color:var(--ink,#09090b);margin-bottom:6px;}" +
       // floating action button
       ".lf-fab{position:fixed;right:clamp(16px,4vw,28px);bottom:clamp(16px,4vw,28px);z-index:9990;" +
       "display:inline-flex;align-items:center;gap:9px;padding:13px 20px;border:0;cursor:pointer;" +
@@ -154,14 +274,24 @@
     build();
     lastFocus = trigger || document.activeElement;
     overlay.hidden = false;
+    var f = overlay.querySelector(".bf-form");
+    if (f && !f.getAttribute("data-started")) f.setAttribute("data-started", new Date().toISOString());
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         overlay.classList.add("lf-open");
         document.body.classList.add("lf-lock");
-        var first = overlay.querySelector(".bf-input");
-        if (first) try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); }
+        focusFirst();
+        // the overlay is still visibility:hidden on this frame; retry once the fade-in has started
+        setTimeout(focusFirst, 60);
+        setTimeout(focusFirst, 380);
       });
     });
+  }
+
+  function focusFirst() {
+    if (!overlay.classList.contains("lf-open") || overlay.contains(document.activeElement)) return;
+    var first = overlay.querySelector(".bf-input:not([hidden])") || overlay.querySelector(".bf-thanks:not([hidden])");
+    if (first) try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); }
   }
 
   function close() {
@@ -217,6 +347,8 @@
       if (el.getAttribute("data-bf-ready")) return;
       el.setAttribute("data-bf-ready", "1");
       renderInto(el);
+      var f = el.querySelector(".bf-form");
+      f.addEventListener("focusin", function () { if (!f.getAttribute("data-started")) f.setAttribute("data-started", new Date().toISOString()); });
     });
   }
 
@@ -225,6 +357,7 @@
     else fn();
   }
   ready(function () {
+    readAttr(); // capture landing URL / UTM on first view of the session
     injectStyles();
     document.addEventListener("click", onClick);
     buildFab();
