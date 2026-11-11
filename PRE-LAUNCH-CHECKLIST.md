@@ -10,6 +10,7 @@
 ## Must-fix before the domain cutover
 
 - [x] **Lead form — RESOLVED (V8).** Replaced the blank login-gated `vbuma.io/LeadForm` with a native, on-brand contact form wired to JotForm (form `261695091611054`). It matches the site's design (Inter, light surface, ink button — not JotForm's theme) and appears site-wide: a floating "Let's Talk" button + accessible modal on every page, plus the 7 inline form sections — all driven by the shared `/leadform.js`. Submissions post to JotForm's backend; a honeypot + JotForm Smart CAPTCHA guard against spam. **Final check before/at go-live:** submit the form once from a real browser and confirm the lead lands in the JotForm inbox.
+- [ ] **Lead form → Buma CRM (PR `buma-crm-lead-form`, not released).** `/leadform.js` now renders a native form that posts to the Buma CRM form "Website Lead Intake" (CRM id `6af3bc26b504b7a25ac32b99`) instead of the JotForm iframe. Before merge: publish the form in Buma CRM, paste its public token into `CRM_FORM_TOKEN`, run one synthetic test, confirm the contact lands tagged `website` and the owner email arrives. Rollback: revert the commit (restores the JotForm embed).
 
 - [ ] **Real GA4 Measurement ID** — currently a placeholder `G-XXXXXXXXXX` (tracking nothing). Create a GA4 property for bumatechnology.com → paste the real `G-...` ID → swap into all pages.
 
