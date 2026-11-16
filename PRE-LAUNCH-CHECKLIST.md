@@ -11,7 +11,7 @@
 
 - [x] **Lead form — RESOLVED (V8).** Replaced the blank login-gated `vbuma.io/LeadForm` with a native, on-brand contact form wired to JotForm (form `261695091611054`). It matches the site's design (Inter, light surface, ink button — not JotForm's theme) and appears site-wide: a floating "Let's Talk" button + accessible modal on every page, plus the 7 inline form sections — all driven by the shared `/leadform.js`. Submissions post to JotForm's backend; a honeypot + JotForm Smart CAPTCHA guard against spam. **Final check before/at go-live:** submit the form once from a real browser and confirm the lead lands in the JotForm inbox.
 
-- [ ] **Real GA4 Measurement ID** — currently a placeholder `G-XXXXXXXXXX` (tracking nothing). Create a GA4 property for bumatechnology.com → paste the real `G-...` ID → swap into all pages.
+- [x] **Real GA4 Measurement ID** — `G-6YXQK31JES`. `/consent.js` loads gtag.js and sends the config hit only after the visitor grants analytics cookies (`buma_consent=granted`).
 
 - [ ] **301 redirect map** — old WordPress URLs change in V7. Build into V7's `_redirects`. Known changes:
   - `/contact-us/` → `/contact`

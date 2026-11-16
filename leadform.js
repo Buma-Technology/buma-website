@@ -8,6 +8,12 @@
  * iframe renders the identical form and is safe to mount dynamically. The iframe auto-resizes
  * via JotForm's postMessage "setHeight" events (handled below — no third-party JS required).
  *
+ * UTM passthrough (independent of cookie consent — values only go into the form the
+ * visitor submits): on load, utm_source, utm_medium, utm_campaign, and utm_content are
+ * read from the page URL and saved in sessionStorage. The first touch in the session
+ * wins. Those values, plus page=<location.pathname>, are appended to the iframe URL
+ * so JotForm can prefill fields by unique name. Missing params leave the modal working.
+ *
  * Appears in:
  *   (a) a global modal opened by the floating "Let's Talk" button and any /contact CTA, and
  *   (b) any <div data-buma-form></div> placed inline on a page (the form sections).
@@ -18,6 +24,8 @@
 
   var FORM_ID = "261695091611054";
   var FORM_SRC = "https://form.jotform.com/" + FORM_ID;
+  var UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content"];
+  var UTM_STORAGE = "buma_utm";
   // Any CTA whose destination is the contact page is treated as a lead-capture trigger.
   var CTA_SELECTOR = [
     'a[href="/contact"]',
@@ -27,6 +35,70 @@
 
   var injected = false, overlay, dialog, lastFocus, resizeWired = false;
 
+  /* ---------- UTM passthrough ---------- */
+
+  function utmFromSearch(search) {
+    var out = {};
+    try {
+      var params = new URLSearchParams(search || "");
+      UTM_KEYS.forEach(function (key) {
+        var value = params.get(key);
+        if (value) out[key] = value;
+      });
+    } catch (e) {}
+    return out;
+  }
+
+  function utmHasAny(obj) {
+    if (!obj) return false;
+    for (var i = 0; i < UTM_KEYS.length; i++) {
+      if (obj[UTM_KEYS[i]]) return true;
+    }
+    return false;
+  }
+
+  function readStoredUtm() {
+    try {
+      var raw = sessionStorage.getItem(UTM_STORAGE);
+      if (!raw) return null;
+      var parsed = JSON.parse(raw);
+      return utmHasAny(parsed) ? parsed : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // First touch in the session wins. A landing URL with no utm_* does not block
+  // a later page in the same tab from storing them.
+  function captureUtm() {
+    var incoming = utmFromSearch(window.location.search);
+    if (!utmHasAny(incoming)) return;
+    if (readStoredUtm()) return;
+    try {
+      sessionStorage.setItem(UTM_STORAGE, JSON.stringify(incoming));
+    } catch (e) {}
+  }
+
+  function utmForForm() {
+    return readStoredUtm() || utmFromSearch(window.location.search);
+  }
+
+  function formSrc() {
+    try {
+      var url = new URL(FORM_SRC);
+      var utm = utmForForm();
+      UTM_KEYS.forEach(function (key) {
+        if (utm[key]) url.searchParams.set(key, utm[key]);
+      });
+      if (window.location && window.location.pathname) {
+        url.searchParams.set("page", window.location.pathname);
+      }
+      return url.toString();
+    } catch (e) {
+      return FORM_SRC;
+    }
+  }
+
   /* ---------- the form (live JotForm iframe) ---------- */
 
   function renderInto(el) {
@@ -34,7 +106,7 @@
     iframe.className = "bf-jf";
     iframe.id = "JotFormIFrame-" + FORM_ID;
     iframe.title = "Contact BuMa Technology";
-    iframe.src = FORM_SRC;
+    iframe.src = formSrc();
     iframe.setAttribute("allowtransparency", "true");
     iframe.setAttribute("allow", "geolocation; microphone; camera; fullscreen; payment");
     iframe.setAttribute("frameborder", "0");
@@ -224,6 +296,7 @@
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
     else fn();
   }
+  captureUtm();
   ready(function () {
     injectStyles();
     document.addEventListener("click", onClick);
