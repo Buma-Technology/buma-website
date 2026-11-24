@@ -144,7 +144,7 @@
     if (document.getElementById("lf-styles")) return;
     var css =
       // modal shell
-      ".lf-overlay{position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;" +
+      ".lf-overlay{position:fixed!important;inset:0!important;z-index:9998!important;display:flex;align-items:center;justify-content:center;" +
       "padding:clamp(12px,4vw,40px);background:rgba(9,9,11,0.62);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);" +
       "opacity:0;visibility:hidden;transition:opacity .3s var(--ease,ease),visibility .3s var(--ease,ease);}" +
       ".lf-overlay.lf-open{opacity:1;visibility:visible;}" +
@@ -169,7 +169,7 @@
       "height:720px;}" +
       ".lf-body .bf-jf{height:680px;}" +
       // floating action button
-      ".lf-fab{position:fixed;right:clamp(16px,4vw,28px);bottom:clamp(16px,4vw,28px);z-index:9990;" +
+      ".lf-fab{position:fixed!important;right:clamp(16px,4vw,28px)!important;bottom:clamp(16px,4vw,28px)!important;z-index:9990!important;" +
       "display:inline-flex;align-items:center;gap:9px;padding:13px 20px;border:0;cursor:pointer;" +
       "font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;" +
       "color:#fff;background:var(--ink,#09090b);border-radius:999px;" +
