@@ -114,6 +114,22 @@
   <script src="/consent.js"></script>
 <meta name="theme-color" content="#fafafa">
 <style id="navfix">@media (max-width:960px){nav.site-nav{z-index:1000!important}nav.site-nav .nav-links{z-index:1000;background:#09090b!important}}</style>
+<style id="ns-mobile-fit">
+@media (max-width:720px){
+  .dev-split>.dev-laptop,
+  .dev-laptop-screen,
+  .dev-laptop-display,
+  .dev-chrome,
+  .dev-chrome .url{min-width:0;max-width:100%;}
+  .dev-chrome{flex-wrap:wrap;}
+  .dev-chrome .url{white-space:normal;overflow-wrap:anywhere;}
+  .dev-laptop-display div[style*="display:flex"]{flex-wrap:wrap;min-width:0;max-width:100%;}
+  .dev-laptop-display div[style*="1fr 1fr 1fr 1fr"]{grid-template-columns:repeat(2,minmax(0,1fr)) !important;min-width:0;max-width:100%;}
+  .dev-laptop-display div[style*="overflow:hidden"]{max-width:100%;overflow-x:auto;}
+  .dev-laptop-display div[style*="0.8fr"]{min-width:440px;width:max-content;}
+  .dev-laptop-display div[style*="display:grid"]>span{min-width:0;overflow-wrap:anywhere;}
+}
+</style>
 </head>
 <body class="theme-erp">
 <a class="skip-link" href="#main">Skip to main content</a>
