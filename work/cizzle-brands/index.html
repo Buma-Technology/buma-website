@@ -90,22 +90,21 @@
         <div class="mc-frame">
           <div class="mc-chrome">
             <div class="mc-dots"><span></span><span></span><span></span></div>
-            <div class="mc-url">cizzle.buma.tech / live-ops</div>
-            <div class="mc-live">LIVE</div>
+            <div class="mc-url">cizzle.buma.tech / ops</div>
           </div>
           <div class="mc-topbar">
             <div class="mc-brand"><span class="mc-brand-mark">B</span><span class="mc-brand-text">BuMa</span><span class="mc-crumb">/ cizzle · production</span></div>
-            <div class="mc-meta">6 brands · 2 3PLs · 1 ERP</div>
+            <div class="mc-meta">Orders · Fulfillment · Flows</div>
           </div>
           <div class="mc-body">
             <div class="mc-stats">
-              <div class="mc-stat"><div class="mc-stat-label">Brands unified</div><div class="mc-stat-num">6</div><div class="mc-stat-delta">all live · 0 missed orders</div></div>
-              <div class="mc-stat"><div class="mc-stat-label">3PL routing avg</div><div class="mc-stat-num">312ms</div><div class="mc-stat-delta">▲ p95 under 500ms</div></div>
-              <div class="mc-stat"><div class="mc-stat-label">Inventory drift</div><div class="mc-stat-num">0</div><div class="mc-stat-delta">auto-reconciled hourly</div></div>
-              <div class="mc-stat"><div class="mc-stat-label">Portfolio reporting</div><div class="mc-stat-num">Real-time</div><div class="mc-stat-delta neutral">— public co-grade</div></div>
+              <div class="mc-stat"><div class="mc-stat-label">Orders</div></div>
+              <div class="mc-stat"><div class="mc-stat-label">Fulfillment</div></div>
+              <div class="mc-stat"><div class="mc-stat-label">Inventory</div></div>
+              <div class="mc-stat"><div class="mc-stat-label">Flows</div></div>
             </div>
           </div>
-          <div class="mc-footer"><span class="mc-footer-dot"></span><span>All 6 brands healthy · last sync 0.3s ago</span></div>
+          <div class="mc-footer"><span class="mc-footer-dot"></span><span>Orders · Fulfillment · Flows</span></div>
         </div>
       </div>
     </div>
@@ -158,7 +157,6 @@
     <div class="cs-arch-diagram reveal" style="margin: 40px 0 56px;">
   <div style="position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:32px 28px;box-shadow:var(--shadow-card);overflow:hidden;">
     <div style="position:absolute;top:14px;left:18px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-4);letter-spacing:2px;text-transform:uppercase;">— ARCHITECTURE · CIZZLE BRANDS</div>
-    <div style="position:absolute;top:14px;right:18px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--good);letter-spacing:2px;display:flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;background:var(--good);border-radius:50%;" class="dot"></span> live · 24/7</div>
     <svg viewBox="0 0 800 460" style="width:100%;height:auto;display:block;margin-top:22px;" role="img" aria-label="Cizzle Brands architecture: six Shopify stores routed through Celigo to a unified ERP and split between two 3PL providers" id="cizzleArchSvg">
       <defs>
         <pattern id="czGrid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0 L0 0 0 32" fill="none" stroke="#09090b" stroke-width="0.4" stroke-opacity="0.04"/></pattern>
@@ -298,17 +296,16 @@
             </div>
             <div style="padding:6px 14px 0 14px; border-bottom:1px solid #e4e6ec; display:flex; align-items:center; gap:10px;">
               <div style="width:26px; height:26px; border-radius:6px; background:#09090b; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;">#</div>
-              <div><div style="font-family:'Inter'; font-weight:700; font-size:14px; color:var(--ink);">cizzle-ops</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-4);">6 brands · 2 3PLs · live</div></div>
-              <div style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:9px; color:#16a34a; letter-spacing:1.5px;">● LIVE</div>
+              <div><div style="font-family:'Inter'; font-weight:700; font-size:14px; color:var(--ink);">cizzle-ops</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-4);">Orders · Fulfillment</div></div>
             </div>
             <div style="padding:10px 14px; flex:1; overflow:hidden; font-family:'Inter';">
-              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dcfce7; color:#166534; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">BRAND 1</span> Order #44128 → 3PL A · routed in 312ms</div>
-              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dbeafe; color:#1e40af; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">BRAND 5</span> Order #44219 → 3PL B · routed in 287ms</div>
-              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#fef3c7; color:#92400e; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">BRAND 3</span> Inventory drift · 12 SKUs · auto-reconciled</div>
-              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dcfce7; color:#166534; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">BRAND 2</span> Order #44131 → 3PL A · routed</div>
-              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dcfce7; color:#166534; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">BRAND 4</span> Order #44232 → 3PL B · routed</div>
-              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dbeafe; color:#1e40af; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">BRAND 6</span> New SKU added · cross-routed to A & B</div>
-              <div style="padding:8px 0; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dcfce7; color:#166534; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">PORTFOLIO</span> All 6 brands · 0 missed orders · today</div>
+              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dcfce7; color:#166534; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">ORDERS</span> Order routed to fulfillment</div>
+              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dbeafe; color:#1e40af; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">FULFILLMENT</span> Routed to the warehouse</div>
+              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#fef3c7; color:#92400e; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">INVENTORY</span> Inventory reconciled</div>
+              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dcfce7; color:#166534; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">ORDERS</span> Order routed</div>
+              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dcfce7; color:#166534; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">ORDERS</span> Order routed</div>
+              <div style="padding:8px 0; border-bottom:1px solid #f0f1f4; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dbeafe; color:#1e40af; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">INVENTORY</span> SKU added</div>
+              <div style="padding:8px 0; font-size:11.5px; color:var(--ink-2); line-height:1.55;"><span style="background:#dcfce7; color:#166534; padding:1px 5px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:9px;">FLOWS</span> Orders and fulfillment</div>
             </div>
           </div>
         </div>
@@ -345,7 +342,7 @@
       <div><h2 class="stats-band-title">Results in numbers<span class="sub">six brands, one architecture.</span></h2></div>
       <div class="stats-band-kpis">
         <div><div class="stats-band-num">6<span class="unit"> Brands</span></div><div class="stats-band-label">Unified in single ERP</div></div>
-        <div><div class="stats-band-num">0</div><div class="stats-band-label">Orders missed during migration</div></div>
+        <div><div class="stats-band-num text">Monitored</div><div class="stats-band-label">Order exceptions</div></div>
         <div><div class="stats-band-num text">Real-Time</div><div class="stats-band-label">Portfolio-wide visibility</div></div>
         <div><div class="stats-band-num text">Unified</div><div class="stats-band-label">Monitoring across all brands</div></div>
       </div>

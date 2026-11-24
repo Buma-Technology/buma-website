@@ -161,10 +161,10 @@
           </div>
           <svg viewBox="0 0 680 280" style="width:100%;height:auto;display:block;" role="img" aria-label="Operational dashboard mockup: four KPI tiles plus a 24-hour orders sparkline">
             <g font-family="'JetBrains Mono',monospace" font-size="10">
-              <g transform="translate(20,20)"><text x="0" y="0" fill="#71717a" letter-spacing="1">ORDERS TODAY</text><text x="0" y="36" font-family="'Inter'" font-size="32" font-weight="800" fill="#09090b">1,284</text><text x="0" y="54" fill="#16a34a">▲ 18% vs avg</text></g>
-              <g transform="translate(180,20)"><text x="0" y="0" fill="#71717a" letter-spacing="1">FULFILLMENT SLA</text><text x="0" y="36" font-family="'Inter'" font-size="32" font-weight="800" fill="#09090b">97.4%</text><text x="0" y="54" fill="#71717a">— 2h avg pick</text></g>
-              <g transform="translate(340,20)"><text x="0" y="0" fill="#71717a" letter-spacing="1">FLOWS ACTIVE</text><text x="0" y="36" font-family="'Inter'" font-size="32" font-weight="800" fill="#09090b">13</text><text x="0" y="54" fill="#16a34a">All healthy</text></g>
-              <g transform="translate(500,20)"><text x="0" y="0" fill="#71717a" letter-spacing="1">AI RUNS</text><text x="0" y="36" font-family="'Inter'" font-size="32" font-weight="800" fill="#09090b">847</text><text x="0" y="54" fill="#16a34a">94% auto-applied</text></g>
+              <g transform="translate(20,20)"><text x="0" y="18" fill="#71717a" letter-spacing="1">ORDERS</text></g>
+              <g transform="translate(180,20)"><text x="0" y="18" fill="#71717a" letter-spacing="1">FULFILLMENT</text></g>
+              <g transform="translate(340,20)"><text x="0" y="18" fill="#71717a" letter-spacing="1">FLOWS</text></g>
+              <g transform="translate(500,20)"><text x="0" y="18" fill="#71717a" letter-spacing="1">AI RUNS</text></g>
             </g>
             <line x1="0" y1="100" x2="680" y2="100" stroke="#09090b" stroke-opacity="0.08"/>
             <g transform="translate(0,120)">
@@ -273,7 +273,7 @@
   <div class="container">
     <div class="section-head-center reveal">
       <h2 class="h2">What it looks like running.</h2>
-      <p class="lede">A real BuMa operational dashboard — anonymized client data, real format. Live refresh, alerting active, drill-downs on every tile.</p>
+      <p class="lede">An operational dashboard layout. Refresh, alerting, and drill-downs on every tile.</p>
     </div>
 
     <div class="laptop-wrap reveal">
@@ -290,24 +290,16 @@
               <div class="laptop-sub">refreshed continuously · alerts active</div>
               <div class="laptop-kpis">
                 <div class="laptop-kpi">
-                  <div class="laptop-kpi-label">Orders today</div>
-                  <div class="laptop-kpi-num stats-band-num">1,284</div>
-                  <div class="laptop-kpi-delta">▲ 18% vs avg</div>
+                  <div class="laptop-kpi-label">Orders</div>
                 </div>
                 <div class="laptop-kpi">
-                  <div class="laptop-kpi-label">Fulfillment SLA</div>
-                  <div class="laptop-kpi-num stats-band-num">97.4%</div>
-                  <div class="laptop-kpi-delta" style="color:var(--ink-4)">— 2h avg pick</div>
+                  <div class="laptop-kpi-label">Fulfillment</div>
                 </div>
                 <div class="laptop-kpi">
-                  <div class="laptop-kpi-label">Flows active</div>
-                  <div class="laptop-kpi-num stats-band-num">13</div>
-                  <div class="laptop-kpi-delta">All healthy</div>
+                  <div class="laptop-kpi-label">Flows</div>
                 </div>
                 <div class="laptop-kpi">
-                  <div class="laptop-kpi-label">AI runs / day</div>
-                  <div class="laptop-kpi-num stats-band-num">847</div>
-                  <div class="laptop-kpi-delta">94% auto-applied</div>
+                  <div class="laptop-kpi-label">AI runs</div>
                 </div>
               </div>
               <div class="laptop-chart-wrap">
@@ -340,8 +332,7 @@
                     </defs>
                     <circle cx="70" cy="70" r="52" fill="none" stroke="var(--line)" stroke-width="14"/>
                     <circle cx="70" cy="70" r="52" fill="none" stroke="#16a34a" stroke-width="14" stroke-dasharray="326" stroke-dashoffset="326" transform="rotate(-90 70 70)" stroke-linecap="round" style="animation: lapDonutFill 1.8s 1s var(--ease) forwards;"/>
-                    <text x="70" y="68" text-anchor="middle" font-family="'Inter',sans-serif" font-size="22" font-weight="800" fill="var(--ink)">87%</text>
-                    <text x="70" y="86" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="8" fill="var(--ink-4)" letter-spacing="1">HEALTHY</text>
+                    <text x="70" y="74" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="700" fill="var(--ink)" letter-spacing="1">FLOWS</text>
                   </svg>
                 </div>
               </div>
@@ -393,7 +384,7 @@
   <div class="container">
     <div class="section-head-center reveal">
       <h2 class="h2">What a live BuMa dashboard looks like.</h2>
-      <p class="lede">Operations health — anonymized data, real format.</p>
+      <p class="lede">Operations health — orders, fulfillment, and flows.</p>
     </div>
     <div class="schematic reveal" style="max-width:1000px; margin:0 auto;">
       <div class="schematic-bar">
@@ -402,31 +393,22 @@
       </div>
       <div style="padding:24px; display:grid; grid-template-columns:repeat(4, 1fr); gap:14px;">
         <div style="padding:16px; border:1px solid var(--line); border-radius:8px;">
-          <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Orders today</div>
-          <div style="font-weight:800; font-size:28px; letter-spacing:-0.03em; font-variant-numeric:tabular-nums; line-height:1;">1,284</div>
-          <div style="font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--good); margin-top:8px;">▲ 18% vs yesterday</div>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Orders</div>
         </div>
         <div style="padding:16px; border:1px solid var(--line); border-radius:8px;">
-          <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Fulfillment SLA</div>
-          <div style="font-weight:800; font-size:28px; letter-spacing:-0.03em; font-variant-numeric:tabular-nums; line-height:1;">97.4%</div>
-          <div style="font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-4); margin-top:8px;">— 2h avg pick</div>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Fulfillment</div>
         </div>
         <div style="padding:16px; border:1px solid var(--line); border-radius:8px;">
-          <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Inventory exc.</div>
-          <div style="font-weight:800; font-size:28px; letter-spacing:-0.03em; font-variant-numeric:tabular-nums; line-height:1;">7</div>
-          <div style="font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--warn); margin-top:8px;">▼ 3 low-stock</div>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Inventory</div>
         </div>
         <div style="padding:16px; border:1px solid var(--line); border-radius:8px;">
-          <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Open returns</div>
-          <div style="font-weight:800; font-size:28px; letter-spacing:-0.03em; font-variant-numeric:tabular-nums; line-height:1;">23</div>
-          <div style="font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-4); margin-top:8px;">— under SLA</div>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Returns</div>
         </div>
       </div>
       <div style="padding:0 24px 24px;">
         <div style="padding:14px 16px; background:var(--bg-alt); border:1px solid var(--line); border-radius:8px;">
           <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-4); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:14px; display:flex; justify-content:space-between;">
-            <span>Order velocity · last 7 days</span>
-            <span>5,847 orders</span>
+            <span>Order velocity</span>
           </div>
           <div style="display:flex; gap:12px; align-items:flex-end; height:80px;">
             <div style="flex:1; height:55%; background:var(--ink-4); border-radius:2px;"></div>
