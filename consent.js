@@ -51,7 +51,7 @@
   function injectStyles() {
     if (document.getElementById("buma-consent-styles")) return;
     var css =
-      ".buma-consent{position:fixed;z-index:10050;left:16px;right:16px;bottom:16px;margin:0 auto;max-width:680px;" +
+      ".buma-consent{position:fixed!important;z-index:10050!important;left:16px;right:16px;bottom:16px;margin:0 auto;max-width:680px;" +
       "display:flex;align-items:center;gap:16px;box-sizing:border-box;padding:12px 12px 12px 16px;" +
       "background:#fff;color:#09090b;border:1px solid #e4e4e7;border-radius:10px;" +
       "box-shadow:0 1px 2px rgba(9,9,11,0.04),0 12px 32px -16px rgba(9,9,11,0.28);" +
@@ -70,7 +70,8 @@
       "letter-spacing:-0.01em;text-transform:none;color:rgba(255,255,255,0.55);text-decoration:none;white-space:nowrap;}" +
       "footer .buma-cookie-settings:hover{color:#fff;}" +
       "footer .buma-cookie-settings:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:2px;}" +
-      "body.buma-consent-open .lf-fab,body.buma-consent-open .sticky-cta{bottom:var(--buma-consent-shift,120px);}" +
+      "body.buma-consent-open .lf-fab{bottom:var(--buma-consent-shift,120px)!important;}" +
+      "body.buma-consent-open .sticky-cta{bottom:var(--buma-consent-shift,120px);}" +
       "@media (max-width:640px){.buma-consent{flex-direction:column;align-items:stretch;gap:12px;padding:14px;}" +
       ".buma-consent-actions{display:grid;grid-template-columns:1fr 1fr;}" +
       ".buma-consent button{min-width:0;width:100%;}}" +
